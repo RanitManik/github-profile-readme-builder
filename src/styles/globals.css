@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* GitHub's core accent colors */
+        --accent-default: 9 105 218; /* #0969da - Used for links, buttons */
+        --accent-emphasis: 31 111 235; /* #1f6feb - Primary actions */
+        --accent-muted: 56 139 253; /* #388bfd - Secondary actions */
+        --accent-subtle: 221 244 255; /* #ddf4ff - Subtle backgrounds */
+
+        /* Foreground colors */
+        --fg-default: 31 35 40; /* #1F2328 - Default text */
+        --fg-emphasis: 255 255 255; /* #FFFFFF - Text on colored backgrounds */
+        --fg-muted: 101 109 118; /* #656C76 - Secondary text */
+        --fg-subtle: 87 96 106; /* #57606a - Subtle text */
+
+        /* Background colors */
+        --bg-default: 255 255 255; /* #FFFFFF - Default background */
+        --bg-inset: 246 248 250; /* #f6f8fa - Inset/sunken background */
+        --bg-subtle: 246 248 250; /* #f6f8fa - Subtle background */
+        --bg-muted: 239 242 245; /* #eff2f5 - Muted background */
+
+        /* Border colors */
+        --border-default: 208 215 222; /* #d0d7de - Default border */
+        --border-muted: 208 215 222 179; /* #d0d7deb3 - Muted border */
+        --border-subtle: 27 31 36 12; /* #1b1f2412 - Subtle border */
+
+        /* Success colors */
+        --success-default: 26 127 55; /* #1a7f37 - Success text */
+        --success-emphasis: 31 136 61; /* #1f883d - Success emphasis */
+        --success-muted: 74 194 107; /* #4ac26b - Success muted */
+        --success-subtle: 218 251 225; /* #dafbe1 - Success subtle background */
+
+        /* Attention colors */
+        --attention-default: 154 103 0; /* #9a6700 - Warning text */
+        --attention-emphasis: 154 103 0; /* #9a6700 - Warning emphasis */
+        --attention-muted: 212 167 44; /* #d4a72c - Warning muted */
+        --attention-subtle: 255 248 197; /* #fff8c5 - Warning subtle background */
+
+        /* Danger colors */
+        --danger-default: 207 34 46; /* #cf222e - Danger text */
+        --danger-emphasis: 218 54 51; /* #da3633 - Danger emphasis */
+        --danger-muted: 248 81 73; /* #f85149 - Danger muted */
+        --danger-subtle: 255 235 233; /* #ffebe9 - Danger subtle background */
+
+        /* Done (purple) colors */
+        --done-default: 130 80 223; /* #8250df - Done text */
+        --done-emphasis: 130 80 223; /* #8250df - Done emphasis */
+        --done-muted: 194 151 255; /* #c297ff - Done muted */
+        --done-subtle: 251 239 255; /* #fbefff - Done subtle background */
+
+        /* Neutral colors */
+        --neutral-muted: 175 184 193 51; /* #afb8c133 - Neutral muted */
+        --neutral-emphasis: 89 99 110; /* #59636e - Neutral emphasis */
+        --neutral-subtle: 234 238 242; /* #eaeef2 - Neutral subtle */
+
+        /* Utility colors */
+        --primer-shadow-focus: 0 0 0 3px rgba(9, 105, 218, 0.3); /* Focus ring */
+        --primer-shadow-inset: inset 0 1px 0 rgba(208, 215, 222, 0.2); /* Inset shadow */
+    }
+
+    .dark {
+        /* Dark mode colors */
+        --accent-default: 47 129 247; /* #2f81f7 */
+        --accent-emphasis: 47 129 247; /* #2f81f7 */
+        --accent-muted: 88 166 255; /* #58a6ff */
+        --accent-subtle: 56 139 253 10; /* #388bfd1a */
+
+        /* Foreground colors */
+        --fg-default: 230 237 243; /* #e6edf3 */
+        --fg-emphasis: 255 255 255; /* #ffffff */
+        --fg-muted: 125 133 144; /* #7d8590 */
+        --fg-subtle: 110 118 129; /* #6e7681 */
+
+        /* Background colors */
+        --bg-default: 13 17 23; /* #0d1117 */
+        --bg-inset: 22 27 34; /* #161b22 */
+        --bg-subtle: 22 27 34; /* #161b22 */
+        --bg-muted: 33 38 45; /* #21262d */
+
+        /* Border colors */
+        --border-default: 48 54 61; /* #30363d */
+        --border-muted: 48 54 61 153; /* #30363d99 */
+        --border-subtle: 240 246 252 10; /* #f0f6fc1a */
+
+        /* Success colors */
+        --success-default: 63 185 80; /* #3fb950 */
+        --success-emphasis: 46 160 67; /* #2ea043 */
+        --success-muted: 46 160 67 40; /* #2ea04366 */
+        --success-subtle: 46 160 67 15; /* #2ea04326 */
+
+        /* Attention colors */
+        --attention-default: 210 153 34; /* #d29922 */
+        --attention-emphasis: 187 128 9; /* #bb8009 */
+        --attention-muted: 187 128 9 40; /* #bb800966 */
+        --attention-subtle: 187 128 9 15; /* #bb800926 */
+
+        /* Danger colors */
+        --danger-default: 248 81 73; /* #f85149 */
+        --danger-emphasis: 218 54 51; /* #da3633 */
+        --danger-muted: 248 81 73 40; /* #f8514966 */
+        --danger-subtle: 248 81 73 15; /* #f8514926 */
+
+        /* Done colors */
+        --done-default: 163 113 247; /* #a371f7 */
+        --done-emphasis: 163 113 247; /* #a371f7 */
+        --done-muted: 163 113 247 40; /* #a371f766 */
+        --done-subtle: 163 113 247 15; /* #a371f726 */
+
+        /* Neutral colors */
+        --neutral-muted: 110 118 129 40; /* #6e768166 */
+        --neutral-emphasis: 110 118 129; /* #6e7681 */
+        --neutral-subtle: 110 118 129 10; /* #6e76811a */
+
+        /* Utility colors */
+        --primer-shadow-focus: 0 0 0 3px #0c2d6b;
+        --primer-shadow-inset: inset 0 1px 0 rgba(110, 118, 129, 0.4);
+    }
+}
+
+@layer base {
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+            Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+}
