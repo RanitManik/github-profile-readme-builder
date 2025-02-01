@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 import tailwindcss_animate from "tailwindcss-animate";
 
 export default {
+    darkMode: ["class"],
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,39 +12,72 @@ export default {
     theme: {
         extend: {
             colors: {
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
-                },
-                secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
-                },
-                destructive: {
-                    DEFAULT: "hsl(var(--destructive))",
-                    foreground: "hsl(var(--destructive-foreground))",
-                },
-                muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))",
-                },
+                /* Accent colors */
                 accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
+                    DEFAULT: "rgb(var(--accent-default))",
+                    emphasis: "rgb(var(--accent-emphasis))",
+                    muted: "rgb(var(--accent-muted))",
+                    subtle: "rgb(var(--accent-subtle))",
                 },
-                popover: {
-                    DEFAULT: "hsl(var(--popover))",
-                    foreground: "hsl(var(--popover-foreground))",
+                /* Foreground colors */
+                foreground: {
+                    DEFAULT: "rgb(var(--fg-default))",
+                    emphasis: "rgb(var(--fg-emphasis))",
+                    muted: "rgb(var(--fg-muted))",
+                    subtle: "rgb(var(--fg-subtle))",
                 },
-                card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
+                /* Background colors */
+                background: {
+                    DEFAULT: "rgb(var(--bg-default))",
+                    inset: "rgb(var(--bg-inset))",
+                    subtle: "rgb(var(--bg-subtle))",
+                    muted: "rgb(var(--bg-muted))",
                 },
+                /* Border colors */
+                border: {
+                    DEFAULT: "rgb(var(--border-default))",
+                    muted: "rgb(var(--border-muted))",
+                    subtle: "rgb(var(--border-subtle))",
+                },
+                /* Success colors */
+                success: {
+                    DEFAULT: "rgb(var(--success-default))",
+                    emphasis: "rgb(var(--success-emphasis))",
+                    muted: "rgb(var(--success-muted))",
+                    subtle: "rgb(var(--success-subtle))",
+                },
+                /* Attention colors */
+                attention: {
+                    DEFAULT: "rgb(var(--attention-default))",
+                    emphasis: "rgb(var(--attention-emphasis))",
+                    muted: "rgb(var(--attention-muted))",
+                    subtle: "rgb(var(--attention-subtle))",
+                },
+                /* Danger colors */
+                danger: {
+                    DEFAULT: "rgb(var(--danger-default))",
+                    emphasis: "rgb(var(--danger-emphasis))",
+                    muted: "rgb(var(--danger-muted))",
+                    subtle: "rgb(var(--danger-subtle))",
+                },
+                /* Done colors */
+                done: {
+                    DEFAULT: "rgb(var(--done-default))",
+                    emphasis: "rgb(var(--done-emphasis))",
+                    muted: "rgb(var(--done-muted))",
+                    subtle: "rgb(var(--done-subtle))",
+                },
+                /* Neutral colors */
+                neutral: {
+                    DEFAULT: "rgb(var(--neutral-default))",
+                    muted: "rgb(var(--neutral-muted))",
+                    emphasis: "rgb(var(--neutral-emphasis))",
+                    subtle: "rgb(var(--neutral-subtle))",
+                },
+            },
+            boxShadow: {
+                focus: "var(--primer-shadow-focus)",
+                inset: "var(--primer-shadow-inset)",
             },
             borderRadius: {
                 lg: `var(--radius)`,
