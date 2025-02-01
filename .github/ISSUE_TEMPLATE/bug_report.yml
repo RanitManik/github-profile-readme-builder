@@ -1,0 +1,99 @@
+name: "🐛 Bug Report"
+description: Report an issue to help us improve github-profile-readme-builder
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: ["RanitManik"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              ## 🐞 Bug Report
+
+              Thank you for taking the time to report a bug in **github-profile-readme-builder**! Your help is invaluable in making the project better. 🚀
+
+              Before you proceed:
+              - 💡 **Check existing [discussions](https://github.com/RanitManik/github-profile-readme-builder/discussions?discussions_q=)** and **[issues](https://github.com/RanitManik/github-profile-readme-builder/issues?q=)** to avoid duplicates.
+              - ❓ Need help with something that’s not a bug? Try asking in our **[GitHub discussions](https://github.com/RanitManik/github-profile-readme-builder/discussions)**.
+              - 📌 Please be as detailed as possible—clear reports help us fix issues faster!
+
+    - type: input
+      id: platform
+      attributes:
+          label: "📌 Platform Information"
+          description: "Provide details about your environment:"
+          placeholder: |
+              - github-profile-readme-builder version: 
+              - Browser and version: 
+              - OS and version:
+      validations:
+          required: true
+
+    - type: input
+      id: link
+      attributes:
+          label: "🔗 Live Code Example (Optional)"
+          description: "Provide a link to a minimal, reproducible example if possible (e.g., a GitHub repo or deployed app)."
+          placeholder: "https://github-profile-readme-builder.pro/... or GitHub Repo"
+
+    - type: textarea
+      id: description
+      attributes:
+          label: "🐛 Describe the Bug"
+          description: "What issue are you experiencing? Provide as much detail as possible."
+          placeholder: "A clear and concise description of what the bug is."
+      validations:
+          required: true
+
+    - type: textarea
+      id: steps
+      attributes:
+          label: "🚶 Steps to Reproduce"
+          description: "Provide a step-by-step guide to replicate the issue."
+          placeholder: |
+              1. Go to '...'
+              2. Click on '...'
+              3. Scroll down to '...'
+              4. See error
+      validations:
+          required: true
+
+    - type: textarea
+      id: expected
+      attributes:
+          label: "✅ Expected Behavior"
+          description: "What did you expect to happen instead of the bug?"
+          placeholder: "As a user, I expected ___, but instead I saw ___"
+      validations:
+          required: true
+
+    - type: textarea
+      id: actual
+      attributes:
+          label: "❌ Actual Behavior"
+          description: "Describe what actually happened when you encountered the bug."
+          placeholder: "Instead of the expected behavior, I saw ___"
+      validations:
+          required: true
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: "📜 Relevant Logs or Console Output (Optional)"
+          description: "Paste any error messages or logs related to the issue. Format logs using code blocks (` ``` `)."
+          render: shell
+
+    - type: textarea
+      id: screenshots_or_videos
+      attributes:
+          label: "📸 Screenshots or Videos (Optional)"
+          description: |
+              If applicable, attach screenshots or a video showing the issue.  
+              **Supported file types**: [GitHub file upload guidelines](https://docs.github.com/en/github/writing-on-github/working-with-advanced-formatting/attaching-files)
+          placeholder: "Drag your video or image files here"
+
+    - type: textarea
+      id: additional
+      attributes:
+          label: "ℹ️ Additional Context"
+          description: "Anything else that might help us understand the issue?"
+          placeholder: "Any extra details, workarounds, or notes..."

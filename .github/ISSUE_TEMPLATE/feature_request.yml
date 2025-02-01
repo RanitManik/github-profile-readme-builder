@@ -1,0 +1,60 @@
+name: "🚀 Feature Request"
+description: Suggest a new feature or improvement for github-profile-readme-builder
+title: "[Feature]: "
+labels: ["feature request", "enhancement"]
+assignees: ["RanitManik"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              ## 🚀 Feature Request
+
+              Thank you for your interest in improving **github-profile-readme-builder**! Your ideas help us make this project better. ✨  
+
+              Before submitting your request:
+              - 🔍 **Check existing [discussions](https://github.com/RanitManik/github-profile-readme-builder/discussions?discussions_q=)** and **[issues](https://github.com/RanitManik/github-profile-readme-builder/issues?q=)** to see if someone has already suggested a similar feature.
+              - 💡 If your idea is more of a question or discussion, consider posting in our **[GitHub discussions](https://github.com/RanitManik/github-profile-readme-builder/discussions)**.
+
+    - type: textarea
+      id: description
+      attributes:
+          label: "💡 Feature Description"
+          description: "Provide a clear and concise description of the feature or improvement you’re proposing."
+          placeholder: "I would like to suggest..."
+      validations:
+          required: true
+
+    - type: textarea
+      id: use_case
+      attributes:
+          label: "🎯 Use Case & Benefits"
+          description: |
+              - What problem does this feature solve?  
+              - How will it improve the user experience?  
+              - Who would benefit from it?
+          placeholder: "This feature will help users by..."
+      validations:
+          required: true
+
+    - type: textarea
+      id: motivation
+      attributes:
+          label: "🚀 Why is this feature important?"
+          description: "Explain why this feature is valuable and why it should be prioritized."
+          placeholder: "This feature is important because..."
+      validations:
+          required: true
+
+    - type: textarea
+      id: potential_solutions
+      attributes:
+          label: "🛠 Possible Solutions (Optional)"
+          description: "Do you have any ideas on how this could be implemented?"
+          placeholder: "Maybe we could achieve this by..."
+
+    - type: textarea
+      id: additional
+      attributes:
+          label: "ℹ️ Additional Context"
+          description: "Provide any extra details, examples, or related features that might help."
+          placeholder: "Any additional notes or links..."
