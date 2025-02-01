@@ -86,7 +86,7 @@ export default {
                 },
                 /* Border colors */
                 border: {
-                    DEFAULT: "#3d444db3",
+                    DEFAULT: "#3d444d",
                     "50": "#f4f6f7",
                     "100": "#e3e8ea",
                     "200": "#c9d1d8",
@@ -95,7 +95,7 @@ export default {
                     "500": "#5c6e7e",
                     "600": "#4f5d6b",
                     "700": "#444e5a",
-                    "800": "#3d444db3",
+                    "800": "#3d444d",
                     "900": "#363b43",
                     "950": "#21252b",
                 },
