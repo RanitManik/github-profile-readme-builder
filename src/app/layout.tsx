@@ -3,9 +3,9 @@ import "@/styles/globals.css";
 import React from "react";
 
 export const metadata: Metadata = {
-    title: "GitHub README Maker",
+    title: "GitHub Profile README Builder",
     description:
-        "Generate beautiful, customizable GitHub Profile README files quickly and easily.",
+        "Build beautiful, customizable GitHub Profile README files quickly and easily.",
 };
 
 export default function RootLayout({
