@@ -1,9 +1,6 @@
 import type { Config } from "tailwindcss";
 
-import tailwindcss_animate from "tailwindcss-animate";
-
 export default {
-    darkMode: ["class"],
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,70 +11,154 @@ export default {
             colors: {
                 /* Accent colors */
                 accent: {
-                    DEFAULT: "rgb(var(--accent-default))",
-                    emphasis: "rgb(var(--accent-emphasis))",
-                    muted: "rgb(var(--accent-muted))",
-                    subtle: "rgb(var(--accent-subtle))",
+                    DEFAULT: "#4493f8",
+                    "50": "#eff7ff",
+                    "100": "#dbecfe",
+                    "200": "#bedfff",
+                    "300": "#92cbfe",
+                    "400": "#5faefb",
+                    "500": "#4493f8",
+                    "600": "#236eed",
+                    "700": "#1b58da",
+                    "800": "#1d48b0",
+                    "900": "#1d418b",
+                    "950": "#162955",
                 },
                 /* Foreground colors */
                 foreground: {
-                    DEFAULT: "rgb(var(--fg-default))",
-                    emphasis: "rgb(var(--fg-emphasis))",
-                    muted: "rgb(var(--fg-muted))",
-                    subtle: "rgb(var(--fg-subtle))",
-                },
-                /* Background colors */
-                background: {
-                    DEFAULT: "rgb(var(--bg-default))",
-                    inset: "rgb(var(--bg-inset))",
-                    subtle: "rgb(var(--bg-subtle))",
-                    muted: "rgb(var(--bg-muted))",
-                },
-                /* Border colors */
-                border: {
-                    DEFAULT: "rgb(var(--border-default))",
-                    muted: "rgb(var(--border-muted))",
-                    subtle: "rgb(var(--border-subtle))",
-                },
-                /* Success colors */
-                success: {
-                    DEFAULT: "rgb(var(--success-default))",
-                    emphasis: "rgb(var(--success-emphasis))",
-                    muted: "rgb(var(--success-muted))",
-                    subtle: "rgb(var(--success-subtle))",
-                },
-                /* Attention colors */
-                attention: {
-                    DEFAULT: "rgb(var(--attention-default))",
-                    emphasis: "rgb(var(--attention-emphasis))",
-                    muted: "rgb(var(--attention-muted))",
-                    subtle: "rgb(var(--attention-subtle))",
-                },
-                /* Danger colors */
-                danger: {
-                    DEFAULT: "rgb(var(--danger-default))",
-                    emphasis: "rgb(var(--danger-emphasis))",
-                    muted: "rgb(var(--danger-muted))",
-                    subtle: "rgb(var(--danger-subtle))",
-                },
-                /* Done colors */
-                done: {
-                    DEFAULT: "rgb(var(--done-default))",
-                    emphasis: "rgb(var(--done-emphasis))",
-                    muted: "rgb(var(--done-muted))",
-                    subtle: "rgb(var(--done-subtle))",
+                    DEFAULT: "#262C36",
+                    "50": "#f6f7f9",
+                    "100": "#eceff2",
+                    "200": "#d4dbe3",
+                    "300": "#afbbca",
+                    "400": "#8397ad",
+                    "500": "#647993",
+                    "600": "#4f617a",
+                    "700": "#414f63",
+                    "800": "#384454",
+                    "900": "#323b48",
+                    "950": "#262c36",
                 },
                 /* Neutral colors */
                 neutral: {
-                    DEFAULT: "rgb(var(--neutral-default))",
-                    muted: "rgb(var(--neutral-muted))",
-                    emphasis: "rgb(var(--neutral-emphasis))",
-                    subtle: "rgb(var(--neutral-subtle))",
+                    DEFAULT: "#212830",
+                    "50": "#f6f8f9",
+                    "100": "#eceff2",
+                    "200": "#d4dce3",
+                    "300": "#aebecb",
+                    "400": "#829bae",
+                    "500": "#627e95",
+                    "600": "#4e667b",
+                    "700": "#405264",
+                    "800": "#374655",
+                    "900": "#323d48",
+                    "950": "#212830",
                 },
-            },
-            boxShadow: {
-                focus: "var(--primer-shadow-focus)",
-                inset: "var(--primer-shadow-inset)",
+                /* Background colors */
+                background: {
+                    DEFAULT: "#0D1117",
+                    "50": "#f5f7fa",
+                    "100": "#eaeef4",
+                    "200": "#d0dae7",
+                    "300": "#a7bbd2",
+                    "400": "#7798b9",
+                    "500": "#567ba1",
+                    "600": "#426187",
+                    "700": "#374f6d",
+                    "800": "#30445c",
+                    "900": "#2c3b4e",
+                    "950": "#0d1117",
+                },
+                /* Background colors (darker variant) */
+                background_darker: {
+                    DEFAULT: "#010409",
+                    "50": "#f0f6ff",
+                    "100": "#e0ebfe",
+                    "200": "#bad7fd",
+                    "300": "#7db6fc",
+                    "400": "#3892f8",
+                    "500": "#0e74e9",
+                    "600": "#0258c7",
+                    "700": "#0345a1",
+                    "800": "#073d85",
+                    "900": "#0c346e",
+                    "950": "#010409",
+                },
+                /* Border colors */
+                border: {
+                    DEFAULT: "#3d444db3",
+                    "50": "#f4f6f7",
+                    "100": "#e3e8ea",
+                    "200": "#c9d1d8",
+                    "300": "#a4b1bc",
+                    "400": "#778999",
+                    "500": "#5c6e7e",
+                    "600": "#4f5d6b",
+                    "700": "#444e5a",
+                    "800": "#3d444db3",
+                    "900": "#363b43",
+                    "950": "#21252b",
+                },
+                /* Success colors */
+                success: {
+                    DEFAULT: "#2ea043",
+                    "50": "#f2fbf3",
+                    "100": "#e0f8e4",
+                    "200": "#c3efca",
+                    "300": "#94e1a2",
+                    "400": "#5eca71",
+                    "500": "#38af4e",
+                    "600": "#2ea043",
+                    "700": "#247133",
+                    "800": "#215a2c",
+                    "900": "#1d4a27",
+                    "950": "#0b2812",
+                },
+                /* Attention colors */
+                attention: {
+                    DEFAULT: "#bb8009",
+                    "50": "#fdfce9",
+                    "100": "#fcf8c5",
+                    "200": "#fbed8d",
+                    "300": "#f8dc4c",
+                    "400": "#f4c61b",
+                    "500": "#e4ae0e",
+                    "600": "#bb8009",
+                    "700": "#9d600b",
+                    "800": "#824c11",
+                    "900": "#6e3e15",
+                    "950": "#402008",
+                },
+                /* Danger colors */
+                danger: {
+                    DEFAULT: "#da3633",
+                    "50": "#fef2f2",
+                    "100": "#fde3e3",
+                    "200": "#fdcccb",
+                    "300": "#faa8a7",
+                    "400": "#f57674",
+                    "500": "#ec4a47",
+                    "600": "#da3633",
+                    "700": "#b6221f",
+                    "800": "#96201e",
+                    "900": "#7d211f",
+                    "950": "#440c0b",
+                },
+                /* Done colors */
+                done: {
+                    DEFAULT: "#A371F7",
+                    "50": "#f9f5ff",
+                    "100": "#f0e9fe",
+                    "200": "#e4d6fe",
+                    "300": "#cfb6fc",
+                    "400": "#a371f7",
+                    "500": "#955af2",
+                    "600": "#7d39e4",
+                    "700": "#6927c9",
+                    "800": "#5b25a4",
+                    "900": "#4b1f84",
+                    "950": "#300a61",
+                },
             },
             borderRadius: {
                 lg: `var(--radius)`,
@@ -86,5 +167,4 @@ export default {
             },
         },
     },
-    plugins: [tailwindcss_animate],
 } satisfies Config;
