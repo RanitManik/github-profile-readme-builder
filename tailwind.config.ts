@@ -160,11 +160,6 @@ export default {
                     "950": "#300a61",
                 },
             },
-            borderRadius: {
-                lg: `var(--radius)`,
-                md: `calc(var(--radius) - 2px)`,
-                sm: "calc(var(--radius) - 4px)",
-            },
         },
     },
 } satisfies Config;
