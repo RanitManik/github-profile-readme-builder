@@ -10,6 +10,7 @@ import rehypeRaw from "rehype-raw";
 import README from "@/app/README/variant-1";
 
 const Page: NextPage = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [markdown, setMarkdown] = useState(README);
 
     return (
@@ -34,11 +35,13 @@ const Page: NextPage = () => {
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}
                         components={{
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             a: ({ _, ...props }) => (
                                 <a {...props} className="hover:no-underline!">
                                     {props.children}
                                 </a>
                             ),
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             picture: ({ _, ...props }) => (
                                 <picture {...props} className="inline-block!">
                                     {props.children}
