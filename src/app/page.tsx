@@ -34,12 +34,12 @@ const Page: NextPage = () => {
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}
                         components={{
-                            a: ({ _, ...props }) => (
+                            a: (props) => (
                                 <a {...props} className="hover:no-underline!">
                                     {props.children}
                                 </a>
                             ),
-                            picture: ({ _, ...props }) => (
+                            picture: (props) => (
                                 <picture {...props} className="inline-block!">
                                     {props.children}
                                 </picture>
