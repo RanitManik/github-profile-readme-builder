@@ -5,7 +5,8 @@
 @layer base {
     body {
         @apply bg-background text-foreground-50 min-h-svh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
-            Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
+            sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        color-scheme: dark;
     }
 }

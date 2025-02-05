@@ -4,8 +4,7 @@ import React from "react";
 
 export const metadata: Metadata = {
     title: "GitHub Profile README Builder",
-    description:
-        "Build beautiful, customizable GitHub Profile README files quickly and easily.",
+    description: "Build beautiful, customizable GitHub Profile README files quickly and easily.",
 };
 
 export default function RootLayout({
