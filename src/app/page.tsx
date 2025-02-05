@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import "github-markdown-css";
 import rehypeRaw from "rehype-raw";
 import README from "@/app/README/variant-1";
-import { Github } from "lucide-react";
+import { EyeIcon, Github } from "lucide-react";
 
 const Page: NextPage = () => {
     const [markdown, setMarkdown] = useState(README);
@@ -25,9 +25,9 @@ const Page: NextPage = () => {
                     </h1>
                 </nav>
                 {formStage === 1 && (
-                    <div className="grid h-full place-content-center gap-4 px-4 text-center">
+                    <div className="grid h-full place-content-center gap-6 px-4 text-center">
                         <header className="space-y-2">
-                            <h1 className="bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-3xl font-bold text-transparent">
+                            <h1 className="from-accent to-success bg-gradient-to-r bg-clip-text text-3xl font-bold text-transparent">
                                 Build Your Perfect GitHub Profile
                             </h1>
                             <p className="text-muted-foreground m-auto max-w-96 text-sm">
@@ -43,7 +43,7 @@ const Page: NextPage = () => {
                                     htmlFor="github-username"
                                     className="cursor-pointer text-sm font-semibold"
                                 >
-                                    Your GitHub Username
+                                    Enter Your GitHub Username
                                     <span className="text-muted-foreground ml-1 font-normal">
                                         (we&apos;ll help personalize your README)
                                     </span>
@@ -52,7 +52,7 @@ const Page: NextPage = () => {
                                         className="border-border focus-within:outline-accent focus-within:ring-accent flex items-center rounded-md border px-3 py-[5px] transition focus-within:ring-2"
                                     >
                                         <Github size={16} className="text-border-400 me-1" />
-                                        <span className="text-border-400 text-sm">
+                                        <span className="text-border-400 text-sm transition">
                                             github.com /
                                         </span>
                                         <input
@@ -71,7 +71,7 @@ const Page: NextPage = () => {
 
                             <button
                                 type="submit"
-                                className="bg-success hover:bg-success-500 active:bg-success-700 flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-1.5 font-medium font-semibold text-white transition-colors duration-75"
+                                className="bg-success hover:bg-success-500 active:bg-success-700 flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-1.5 font-semibold text-white transition-colors duration-75"
                                 aria-label="Start building your README"
                             >
                                 Start Building Your Profile
@@ -102,7 +102,7 @@ const Page: NextPage = () => {
                 role="region"
                 aria-label="README preview example"
             >
-                <div className="markdown-body border-border h-full overflow-auto rounded-lg border p-6">
+                <div className="markdown-body border-border h-full overflow-auto rounded-lg border p-6 pt-8">
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}

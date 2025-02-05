@@ -1,6 +1,6 @@
 export default function README() {
     return `
-<img align="right" width="30%" src="https://raw.githubusercontent.com/RanitManik/ranitmanik/main/Assets/Programming.gif">
+<img align="right" width="30%" src="README/variant-1/general/Programming.gif">
 
 # Hi👋, I'm [Ranit Manik](https://ranitmanik.github.io/Portfolio-1.0/)
 
