@@ -677,6 +677,5 @@ sketch
 *.tsbuildinfo
 ../next-env.d.ts
 
-# lock files
-package-lock.json
+# bun lock file
 bun.lockb
