@@ -1,7 +1,8 @@
 # Contribution Guidelines
 
-Thank you for considering contributing to this project! Your help is greatly appreciated. Below are some guidelines to
-follow to make the contribution process smooth and effective for everyone involved.
+Thank you for considering contributing to this project! Your help is greatly appreciated. Below are
+some guidelines to follow to make the contribution process smooth and effective for everyone
+involved.
 
 ## How to Contribute
 

@@ -1,12 +1,11 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 @config "../../tailwind.config.ts";
+@import "./tooltip.css";
 
 @layer base {
     body {
-        @apply bg-background text-foreground-50 min-h-svh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial,
-            sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        @apply bg-background text-foreground-50 min-h-svh font-sans;
         color-scheme: dark;
     }
 }
