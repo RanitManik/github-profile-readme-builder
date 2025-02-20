@@ -19,7 +19,8 @@ body:
       id: description
       attributes:
           label: "💡 Feature Description"
-          description: "Provide a clear and concise description of the feature or improvement you’re proposing."
+          description: "Provide a clear and concise description of the feature or improvement you’re
+              proposing."
           placeholder: "I would like to suggest..."
       validations:
           required: true

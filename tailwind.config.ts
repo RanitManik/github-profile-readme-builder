@@ -8,6 +8,30 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                /* Primary Font-Family */
+                sans: [
+                    "-apple-system",
+                    "BlinkMacSystemFont",
+                    "Segoe UI",
+                    "Noto Sans",
+                    "Helvetica",
+                    "Arial",
+                    "sans-serif",
+                    "Apple Color Emoji",
+                    "Segoe UI Emoji",
+                ],
+                /* Secondary Font-Family */
+                monospace: [
+                    "ui-monospace",
+                    "SFMono-Regular",
+                    "SF Mono",
+                    "Menlo",
+                    "Consolas",
+                    "Liberation Mono",
+                    "monospace",
+                ],
+            },
             colors: {
                 /* Accent colors */
                 accent: {
@@ -83,6 +107,21 @@ export default {
                     "800": "#073d85",
                     "900": "#0c346e",
                     "950": "#010409",
+                },
+                /* Background colors (darker variant) */
+                background_lighter: {
+                    DEFAULT: "#151B23",
+                    "50": "#f5f7fa",
+                    "100": "#eaeef4",
+                    "200": "#d1dbe6",
+                    "300": "#a9bdd0",
+                    "400": "#7a9ab6",
+                    "500": "#597c9e",
+                    "600": "#466483",
+                    "700": "#39506b",
+                    "800": "#32455a",
+                    "900": "#2e3c4c",
+                    "950": "#151b23",
                 },
                 /* Border colors */
                 border: {
