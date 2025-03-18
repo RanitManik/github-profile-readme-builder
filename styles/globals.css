@@ -1,7 +1,8 @@
 @import "tailwindcss";
-@plugin "tailwindcss-animate";
-@config "../../tailwind.config.ts";
 @import "./tooltip.css";
+
+@plugin "tailwindcss-animate";
+@config "../tailwind.config.ts";
 
 @layer base {
     body {

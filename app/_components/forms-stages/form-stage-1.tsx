@@ -25,7 +25,7 @@ export default function FormStage1() {
                         </span>
                         <div
                             role="group"
-                            className="border-border focus-within:outline-accent focus-within:ring-accent flex items-center rounded-md border px-3 py-[5px] transition focus-within:ring-2"
+                            className="border-border focus-within:outline-accent focus-within:ring-accent mt-1 flex items-center rounded-md border px-3 py-[5px] transition focus-within:ring-2"
                         >
                             <Github size={16} className="text-border-400 me-1" />
                             <span className="text-border-400 text-sm transition">github.com /</span>
@@ -47,7 +47,6 @@ export default function FormStage1() {
                     type="submit"
                     className="bg-success hover:bg-success-500 active:bg-success-700 flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-1.5 font-semibold text-white transition-colors duration-75"
                     aria-label="Start building your README"
-                    tooltip-top="Start building your README"
                 >
                     Start Building Your Profile
                 </button>
