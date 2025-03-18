@@ -14,7 +14,7 @@ const Page = () => {
     const [activeTab, setActiveTab] = useState("preview");
 
     return (
-        <div className="grid h-svh md:grid-cols-5">
+        <div className="m-auto grid h-svh max-w-[1920px] md:grid-cols-5">
             {/* Configuration Section */}
             <div className="border-border col-span-2 flex h-full flex-col border-r">
                 <LeftHeader />
