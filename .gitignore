@@ -679,3 +679,6 @@ sketch
 
 # bun lock file
 bun.lockb
+
+# npm lock file
+package-lock.json
