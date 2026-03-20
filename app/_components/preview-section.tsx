@@ -19,6 +19,38 @@ export default function PreviewSection({ markdown }: PreviewSectionProps) {
                         {props.children}
                     </a>
                 ),
+                // Convert deprecated align attribute → text-align CSS so centered divs work
+                div: (props) => {
+                    const { align, style, ...rest } = props as React.HTMLAttributes<HTMLDivElement> & {
+                        align?: string;
+                        node?: unknown;
+                    };
+                    return (
+                        <div
+                            {...rest}
+                            style={{
+                                ...(style as React.CSSProperties),
+                                ...(align ? { textAlign: align as React.CSSProperties["textAlign"] } : {}),
+                            }}
+                        />
+                    );
+                },
+                // Make images inline-block so stat cards sit side-by-side (mirrors GitHub rendering)
+                img: (props) => {
+                    const { style, ...rest } = props as React.ImgHTMLAttributes<HTMLImageElement> & {
+                        node?: unknown;
+                    };
+                    return (
+                        <img
+                            {...rest}
+                            style={{
+                                display: "inline-block",
+                                verticalAlign: "middle",
+                                ...(style as React.CSSProperties),
+                            }}
+                        />
+                    );
+                },
                 picture: (props) => (
                     <picture {...props} className="inline-block!">
                         {props.children}
