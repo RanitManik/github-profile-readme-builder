@@ -48,6 +48,19 @@ describe("generateREADME", () => {
             "Connect with me on [**LinkedIn**](https://linkedin.com/in/octocat).",
         );
     });
+
+    it("renders skill icon rows as theme-aware picture elements", () => {
+        const markdown = generateREADME({
+            ...DEFAULT_README_DATA,
+            username: "octocat",
+            skills: ["go", "typescript"],
+        });
+
+        expect(markdown).toContain('<picture>');
+        expect(markdown).toContain('prefers-color-scheme: dark');
+        expect(markdown).toContain('theme=dark');
+        expect(markdown).toContain('theme=light');
+    });
 });
 
 describe("generatePreviewREADME", () => {

@@ -42,6 +42,15 @@ const buildUrl = (base: string, params: Record<string, string>) => {
     return url.toString();
 };
 
+const buildSkillIconsUrl = (skills: string[], theme?: "dark" | "light") =>
+    buildUrl("https://go-skill-icons.vercel.app/api/icons", {
+        i: skills.join(","),
+        ...(theme ? { theme } : {}),
+    });
+
+const buildSkillIconsPicture = (skills: string[], attrs = `loading="lazy" alt="Tech Stack"`) =>
+    `<picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${buildSkillIconsUrl(skills, "dark")}" />\n      <source media="(prefers-color-scheme: light)" srcset="${buildSkillIconsUrl(skills, "light")}" />\n      <img ${attrs} src="${buildSkillIconsUrl(skills, "dark")}" />\n    </picture>`;
+
 const linkText = (value: string, url?: string) =>
     url ? `[**${escapeMarkdownText(value)}**](${url})` : `**${escapeMarkdownText(value)}**`;
 
@@ -257,10 +266,7 @@ export function generateREADME(data: ReadmeData): string {
         const chunks: string[][] = [];
         for (let i = 0; i < skills.length; i += SKILLS_PER_ROW)
             chunks.push(skills.slice(i, i + SKILLS_PER_ROW));
-        const rows = chunks.map(
-            (c) =>
-                `    <img loading="lazy" src="https://go-skill-icons.vercel.app/api/icons?i=${c.join(",")}" alt="Tech Stack" />`,
-        );
+        const rows = chunks.map((c) => `    ${buildSkillIconsPicture(c)}`);
         techSection = `\n<h2 align="center">🛠️ Tech Stack</h2>\n\n<div align="center">\n  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n</div>\n`;
     }
 
@@ -479,10 +485,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         const chunks: string[][] = [];
         for (let i = 0; i < skills.length; i += SKILLS_PER_ROW)
             chunks.push(skills.slice(i, i + SKILLS_PER_ROW));
-        const rows = chunks.map(
-            (c) =>
-                `    <img loading="lazy" src="https://go-skill-icons.vercel.app/api/icons?i=${c.join(",")}" alt="Tech Stack" />`,
-        );
+        const rows = chunks.map((c) => `    ${buildSkillIconsPicture(c)}`);
         techSection += `  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n`;
     } else {
         techSection += `  <a href="https://go-skill-icons.vercel.app">\n    <img src="/README/variant-1/general/icons-row-1.svg" style="${plImg}" />\n    <br />\n    <img src="/README/variant-1/general/icons-row-2.svg" style="${plImg}" />\n    <br />\n    <img src="/README/variant-1/general/icons-row-3.svg" style="${plImg}" />\n  </a>\n`;
