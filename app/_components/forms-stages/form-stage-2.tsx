@@ -59,7 +59,7 @@ export default function FormStage2({ data, updateData }: FormStage2Props) {
                 <input
                     className={inputCls}
                     type="text"
-                    placeholder="A passionate developer from Earth 🌍"
+                    placeholder="A passionate developer from Earth"
                     value={data.tagline}
                     onChange={(e) => updateData({ tagline: e.target.value })}
                 />
