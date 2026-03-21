@@ -32,7 +32,6 @@ export interface ReadmeData {
     showWakatimeStats: boolean;
     wakatimeUsername: string;
     showTrophies: boolean;
-    showSnake: boolean;
     showProfileViews: boolean;
     showPinnedRepos: boolean;
 }
@@ -66,7 +65,6 @@ export const DEFAULT_README_DATA: ReadmeData = {
     showWakatimeStats: true,
     wakatimeUsername: "",
     showTrophies: true,
-    showSnake: true,
     showProfileViews: true,
     showPinnedRepos: true,
 };

@@ -87,12 +87,6 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
 
             <div className="flex flex-col gap-2">
                 <ToggleSwitch
-                    label="GitHub Trophies"
-                    description="Achievement badges based on your GitHub activity"
-                    checked={data.showTrophies}
-                    onChange={(v) => updateData({ showTrophies: v })}
-                />
-                <ToggleSwitch
                     label="Pinned Repositories"
                     description="Showcase up to two repos as card previews"
                     checked={data.showPinnedRepos}
@@ -118,6 +112,13 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                         />
                     </div>
                 )}
+                <ToggleSwitch
+                    label="GitHub Trophies"
+                    description="Achievement badges based on your GitHub activity"
+                    checked={data.showTrophies}
+                    onChange={(v) => updateData({ showTrophies: v })}
+                />
+                
             </div>
 
             <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
@@ -125,12 +126,6 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
             </p>
 
             <div className="flex flex-col gap-2">
-                <ToggleSwitch
-                    label="Contribution Snake Animation"
-                    description="Animated snake eating your GitHub contribution graph"
-                    checked={data.showSnake}
-                    onChange={(v) => updateData({ showSnake: v })}
-                />
                 <ToggleSwitch
                     label="Profile Views Counter"
                     description="Badge showing how many times your profile was viewed"
