@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "@/styles/globals.css";
 import React from "react";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 
 const siteUrl = getSiteUrl();
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
     metadataBase: siteUrl ?? undefined,
@@ -61,7 +63,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="antialiased">{children}</body>
+            <body className="antialiased">
+                {children}
+                {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
+            </body>
         </html>
     );
 }
