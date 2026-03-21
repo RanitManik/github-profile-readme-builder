@@ -188,14 +188,17 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         statsSection += `</div>\n`;
     }
 
-    // Language & Coding Activity — always visible in preview
+    // Language & Coding Activity — show only if at least one card is enabled
     // Wakatime card shows when toggle is ON (default true); placeholder until username set + stage 5
-    let langSection = `${h2("🔥 Language & Coding Activity", 5)}\n\n<div width="100%" align="center">\n`;
-    if (showTopLanguages)
-        langSection += `  ${img(hasUser, langReal, "/README/variant-1/dark/readme-stat-3.svg", `align="center" alt="Top Languages"`)}\n`;
-    if (showWakatimeStats)
-        langSection += `  ${img(hasWaka, wakaReal, "/README/variant-1/dark/readme-stat-4.svg", `align="center" alt="Wakatime Stats"`)}\n`;
-    langSection += `</div>\n`;
+    let langSection = "";
+    if (showTopLanguages || showWakatimeStats) {
+        langSection = `${h2("🔥 Language & Coding Activity", 5)}\n\n<div width="100%" align="center">\n`;
+        if (showTopLanguages)
+            langSection += `  ${img(hasUser, langReal, "/README/variant-1/dark/readme-stat-3.svg", `align="center" alt="Top Languages"`)}\n`;
+        if (showWakatimeStats)
+            langSection += `  ${img(hasWaka, wakaReal, "/README/variant-1/dark/readme-stat-4.svg", `align="center" alt="Wakatime Stats"`)}\n`;
+        langSection += `</div>\n`;
+    }
 
     // Pinned Repos — heading grayed until stage 5
     let pinnedSection = "";
