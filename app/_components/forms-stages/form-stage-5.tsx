@@ -72,7 +72,6 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                     <div className="space-y-1 pl-3">
                         <label className="block text-xs font-semibold">WakaTime Username</label>
                         <TextInput
-                            className="border-border"
                             type="text"
                             placeholder={data.username || "your-wakatime-username"}
                             value={data.wakatimeUsername}
