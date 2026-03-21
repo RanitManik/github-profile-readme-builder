@@ -675,10 +675,3 @@ sketch
 
 # typescript
 *.tsbuildinfo
-../next-env.d.ts
-
-# bun lock file
-bun.lockb
-
-# npm lock file
-package-lock.json
