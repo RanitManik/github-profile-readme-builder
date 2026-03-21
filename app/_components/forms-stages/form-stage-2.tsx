@@ -1,37 +1,13 @@
 "use client";
 
 import { ReadmeData } from "@/lib/types";
+import FormField from "@/components/ui/form-field";
+import TextInput from "@/components/ui/text-input";
 
 interface FormStage2Props {
     data: ReadmeData;
     updateData: (updates: Partial<ReadmeData>) => void;
 }
-
-const inputCls =
-    "border-border bg-background focus:ring-accent w-full rounded-md border px-3 py-1.5 text-sm placeholder:text-foreground-600 focus:outline-none focus:ring-2";
-
-const Field = ({
-    label,
-    optional,
-    hint,
-    children,
-}: {
-    label: string;
-    optional?: boolean;
-    hint?: string;
-    children: React.ReactNode;
-}) => (
-    <div className="space-y-1">
-        <label className="block text-sm font-semibold">
-            {label}
-            {optional && (
-                <span className="text-foreground-500 ml-1 text-xs font-normal">(optional)</span>
-            )}
-        </label>
-        {hint && <p className="text-foreground-500 text-xs">{hint}</p>}
-        {children}
-    </div>
-);
 
 export default function FormStage2({ data, updateData }: FormStage2Props) {
     return (
@@ -44,68 +20,66 @@ export default function FormStage2({ data, updateData }: FormStage2Props) {
                 </p>
             </header>
 
-            <Field
+            <FormField
                 label="Full Name"
                 hint={`Preview: Hi👋, I'm ${data.name || data.username || "Your Name"}`}
             >
-                <input
-                    className={inputCls}
+                <TextInput
                     type="text"
                     placeholder={data.username || "Ranit Manik"}
                     value={data.name}
                     onChange={(e) => updateData({ name: e.target.value })}
                 />
-            </Field>
+            </FormField>
 
-            <Field label="Tagline / Title" optional hint='e.g. "A Full Stack Developer from India"'>
-                <input
-                    className={inputCls}
+            <FormField
+                label="Tagline / Title"
+                optional
+                hint='e.g. "A Full Stack Developer from India"'
+            >
+                <TextInput
                     type="text"
                     placeholder="A passionate developer from Earth"
                     value={data.tagline}
                     onChange={(e) => updateData({ tagline: e.target.value })}
                 />
-            </Field>
+            </FormField>
 
-            <Field label="Location" optional>
-                <input
-                    className={inputCls}
+            <FormField label="Location" optional>
+                <TextInput
                     type="text"
                     placeholder="San Francisco, CA"
                     value={data.location}
                     onChange={(e) => updateData({ location: e.target.value })}
                 />
-            </Field>
+            </FormField>
 
-            <Field label="Portfolio / Website URL" optional>
-                <input
-                    className={inputCls}
+            <FormField label="Portfolio / Website URL" optional>
+                <TextInput
                     type="url"
                     placeholder="https://yourportfolio.dev"
                     value={data.portfolioUrl}
                     onChange={(e) => updateData({ portfolioUrl: e.target.value })}
                 />
-            </Field>
+            </FormField>
 
-            <Field label="Email Address" optional>
-                <input
-                    className={inputCls}
+            <FormField label="Email Address" optional>
+                <TextInput
                     type="email"
                     placeholder="you@example.com"
                     value={data.email}
                     onChange={(e) => updateData({ email: e.target.value })}
                 />
-            </Field>
+            </FormField>
 
-            <Field label="LinkedIn Profile URL" optional>
-                <input
-                    className={inputCls}
+            <FormField label="LinkedIn Profile URL" optional>
+                <TextInput
                     type="url"
                     placeholder="https://linkedin.com/in/your-profile"
                     value={data.linkedinUrl}
                     onChange={(e) => updateData({ linkedinUrl: e.target.value })}
                 />
-            </Field>
+            </FormField>
         </div>
     );
 }

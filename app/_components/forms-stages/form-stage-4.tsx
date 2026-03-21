@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { ReadmeData } from "@/lib/types";
 import { ALL_SKILLS, CATEGORIES, getSkillsByCategory } from "@/lib/skills-data";
+import CategorySelect from "@/components/ui/category-select";
+import SkillChip from "@/components/ui/skill-chip";
 
 const PAGE_SIZE = 60;
 const ALL_CAT = "All";
@@ -11,122 +13,6 @@ const ALL_CAT = "All";
 interface FormStage4Props {
     data: ReadmeData;
     updateData: (updates: Partial<ReadmeData>) => void;
-}
-
-const ICON_BASE = "https://go-skill-icons.vercel.app/api/icons?i=";
-
-/** Custom category dropdown — no text input, just a list with a check on the active item */
-function CategorySelect({
-    value,
-    onChange,
-    options,
-}: {
-    value: string;
-    onChange: (v: string) => void;
-    options: string[];
-}) {
-    const [open, setOpen] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handler = (e: MouseEvent) => {
-            if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-        };
-        document.addEventListener("mousedown", handler);
-        return () => document.removeEventListener("mousedown", handler);
-    }, []);
-
-    return (
-        <div className="relative shrink-0" ref={ref}>
-            <button
-                type="button"
-                onClick={() => setOpen((o) => !o)}
-                className="border-border bg-background_lighter text-foreground-200 hover:border-foreground-400 flex cursor-pointer items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs transition-colors focus:outline-none"
-            >
-                <span className="max-w-30 truncate">{value}</span>
-                <ChevronDown
-                    size={11}
-                    className={`text-foreground-400 transition-transform ${open ? "rotate-180" : ""}`}
-                />
-            </button>
-
-            {open && (
-                <ul className="border-border bg-background absolute right-0 z-50 mt-1 max-h-64 w-44 overflow-y-auto rounded-md border shadow-lg">
-                    {options.map((opt) => (
-                        <li
-                            key={opt}
-                            className="hover:bg-accent/10 flex cursor-pointer items-center justify-between px-3 py-1.5 text-xs"
-                            onMouseDown={() => {
-                                onChange(opt);
-                                setOpen(false);
-                            }}
-                        >
-                            <span
-                                className={
-                                    value === opt
-                                        ? "text-accent font-medium"
-                                        : "text-foreground-200"
-                                }
-                            >
-                                {opt}
-                            </span>
-                            {value === opt && <Check size={11} className="text-accent shrink-0" />}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
-}
-
-function SkillChip({
-    id,
-    name,
-    selected,
-    onToggle,
-}: {
-    id: string;
-    name: string;
-    selected: boolean;
-    onToggle: () => void;
-}) {
-    const [loaded, setLoaded] = useState(false);
-
-    return (
-        <button
-            onClick={onToggle}
-            title={name}
-            className={`group flex cursor-pointer flex-col items-center gap-1 rounded-lg border p-2 transition-all duration-150 ${
-                selected
-                    ? "border-accent bg-accent/10 shadow-[0_0_8px_rgba(68,147,248,0.25)]"
-                    : "border-border bg-background_lighter hover:border-foreground-400"
-            }`}
-        >
-            <div className="relative flex h-8 w-8 items-center justify-center">
-                {/* Skeleton shown until image loads */}
-                {!loaded && (
-                    <div className="bg-border/60 absolute inset-0 animate-pulse rounded-md" />
-                )}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src={`${ICON_BASE}${id}`}
-                    alt={name}
-                    width={32}
-                    height={32}
-                    loading="lazy"
-                    onLoad={() => setLoaded(true)}
-                    className={`h-8 w-8 transition-opacity duration-200 ${loaded ? "opacity-100" : "opacity-0"}`}
-                />
-            </div>
-            <span
-                className={`max-w-13 truncate text-center text-[9px] leading-tight ${
-                    selected ? "text-accent font-semibold" : "text-foreground-400"
-                }`}
-            >
-                {name}
-            </span>
-        </button>
-    );
 }
 
 export default function FormStage4({ data, updateData }: FormStage4Props) {
