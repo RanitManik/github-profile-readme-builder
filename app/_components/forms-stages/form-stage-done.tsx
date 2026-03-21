@@ -1,7 +1,7 @@
 "use client";
 
 import { Clipboard, Download, RefreshCw, Check } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface FormStageDoneProps {
     markdown: string;
@@ -10,6 +10,26 @@ interface FormStageDoneProps {
 
 export default function FormStageDone({ markdown, onReset }: FormStageDoneProps) {
     const [copied, setCopied] = useState(false);
+    const [showConfetti, setShowConfetti] = useState(true);
+    const confettiPieces = useMemo(
+        () =>
+            Array.from({ length: 24 }, (_, index) => ({
+                id: index,
+                left: `${Math.random() * 100}%`,
+                delay: `${Math.random() * 0.6}s`,
+                duration: `${3.2 + Math.random() * 1.4}s`,
+                rotation: `${Math.random() * 360}deg`,
+                color: ["#f59e0b", "#22c55e", "#3b82f6", "#ef4444", "#a855f7", "#14b8a6"][
+                    index % 6
+                ],
+            })),
+        [],
+    );
+
+    useEffect(() => {
+        const timeout = window.setTimeout(() => setShowConfetti(false), 4200);
+        return () => window.clearTimeout(timeout);
+    }, []);
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(markdown);
@@ -30,29 +50,45 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
     };
 
     return (
-        <div className="grid h-full place-content-center gap-6 px-6 text-center">
+        <div className="relative grid h-full place-content-center gap-6 overflow-hidden px-6 text-center">
+            {showConfetti && (
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+                    {confettiPieces.map((piece) => (
+                        <span
+                            key={piece.id}
+                            className="absolute top-0 h-3 w-2 rounded-full opacity-90"
+                            style={{
+                                left: piece.left,
+                                backgroundColor: piece.color,
+                                animation: `done-confetti-fall ${piece.duration} ease-out ${piece.delay} forwards`,
+                                transform: `translateY(-12vh) rotate(${piece.rotation})`,
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
+
             {/* Success icon */}
-            <div className="flex justify-center">
+            <div className="relative z-10 flex justify-center">
                 <div className="bg-success/10 border-success/30 flex h-20 w-20 items-center justify-center rounded-full border-2">
                     <span className="text-4xl">🎉</span>
                 </div>
             </div>
 
-            <header className="space-y-2">
+            <header className="relative z-10 space-y-2">
                 <h2 className="text-2xl font-bold">Your README is Ready!</h2>
                 <p className="text-foreground-400 m-auto max-w-sm text-sm">
-                    The live preview is on the right. Switch between{" "}
-                    <span className="text-foreground-100 font-medium">Preview</span> and{" "}
-                    <span className="text-foreground-100 font-medium">Code</span> tabs — then copy
-                    or download your file.
+                    Your live preview stays on the right, and this final step is all about export.
+                    Copy the markdown or download a ready-to-use{" "}
+                    <span className="text-foreground-100 font-medium">README.md</span>.
                 </p>
             </header>
 
-            <div className="flex flex-col gap-3">
+            <div className="relative z-10 flex flex-col gap-3">
                 {/* Copy */}
                 <button
                     onClick={handleCopy}
-                    className={`flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2.5 font-semibold text-white transition-colors ${
+                    className={`flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold text-white transition-colors ${
                         copied ? "bg-success" : "bg-accent hover:bg-accent-600"
                     }`}
                 >
@@ -79,7 +115,7 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
                 </button>
             </div>
 
-            <div className="border-border border-t pt-4">
+            <div className="border-border relative z-10 border-t pt-4">
                 <p className="text-foreground-500 mb-3 text-xs">
                     Want to make changes? Head back to any step — the preview updates live.
                 </p>
@@ -91,6 +127,22 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
                     Start Over
                 </button>
             </div>
+
+            <style jsx>{`
+                @keyframes done-confetti-fall {
+                    0% {
+                        opacity: 0;
+                        transform: translateY(-12vh) rotate(0deg) scale(0.85);
+                    }
+                    10% {
+                        opacity: 1;
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: translateY(115vh) rotate(540deg) scale(1);
+                    }
+                }
+            `}</style>
         </div>
     );
 }

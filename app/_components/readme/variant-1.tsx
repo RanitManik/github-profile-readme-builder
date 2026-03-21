@@ -318,4 +318,3 @@ ${bullets}
 <hr>
 ${statsSection}${langSection}${pinnedSection}${trophiesSection}${techSection}${footerSection}`;
 }
-

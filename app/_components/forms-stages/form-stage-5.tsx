@@ -118,7 +118,6 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                     checked={data.showTrophies}
                     onChange={(v) => updateData({ showTrophies: v })}
                 />
-                
             </div>
 
             <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
