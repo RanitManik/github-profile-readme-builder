@@ -167,6 +167,12 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                     checked={data.showProfileViews}
                     onChange={(v) => updateData({ showProfileViews: v })}
                 />
+                <ToggleSwitch
+                    label="Buy Me a Coffee Badge"
+                    description="Adds a support badge beside the footer badges in your README"
+                    checked={data.showBmcBadge}
+                    onChange={(v) => updateData({ showBmcBadge: v })}
+                />
             </div>
         </div>
     );

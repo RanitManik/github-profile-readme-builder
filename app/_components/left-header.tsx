@@ -1,4 +1,4 @@
-import { Coffee } from "lucide-react";
+import Image from "next/image";
 import Logo from "@/components/logo";
 
 export default function LeftHeader() {
@@ -20,11 +20,16 @@ export default function LeftHeader() {
                 href="https://buymeacoffee.com/ranitmanik"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-success hover:bg-success-500 active:bg-success-700 inline-flex shrink-0 items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-white transition-colors"
+                className="inline-flex shrink-0 items-center transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 aria-label="Support this project on Buy Me a Coffee"
             >
-                <Coffee size={16} />
-                Buy Me a Coffee
+                <Image
+                    src="/bmc-button.png"
+                    alt="Buy Me a Coffee"
+                    width={140}
+                    height={39}
+                    className="h-auto w-35"
+                />
             </a>
         </nav>
     );

@@ -56,14 +56,55 @@ describe("generateREADME", () => {
             skills: ["go", "typescript"],
         });
 
-        expect(markdown).toContain('<picture>');
-        expect(markdown).toContain('prefers-color-scheme: dark');
-        expect(markdown).toContain('theme=dark');
-        expect(markdown).toContain('theme=light');
+        expect(markdown).toContain("<picture>");
+        expect(markdown).toContain("prefers-color-scheme: dark");
+        expect(markdown).toContain("theme=dark");
+        expect(markdown).toContain("theme=light");
+    });
+
+    it("adds a Buy Me a Coffee badge to the footer when enabled", () => {
+        const markdown = generateREADME({
+            ...DEFAULT_README_DATA,
+            username: "octocat",
+            showBmcBadge: true,
+        });
+
+        expect(markdown).toContain("buymeacoffee.com/ranitmanik");
+        expect(markdown).toContain('<a href="https://buymeacoffee.com/ranitmanik">');
+        expect(markdown).toContain(
+            "img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee",
+        );
     });
 });
 
 describe("generatePreviewREADME", () => {
+    it("shows a full-strength example preview on stage 1", () => {
+        const markdown = generatePreviewREADME(DEFAULT_README_DATA, 1);
+
+        expect(markdown).not.toContain("filter:grayscale(1);opacity:0.4;");
+        expect(markdown).toContain('<h2 align="center">📊 GitHub Stats</h2>');
+        expect(markdown).toContain(
+            '<img width="400px" align="center" alt="GitHub Stats" src="/README/variant-1/dark/readme-stat-1.svg" style="" />',
+        );
+    });
+
+    it("renders the Buy Me a Coffee badge in preview when enabled", () => {
+        const markdown = generatePreviewREADME(
+            {
+                ...DEFAULT_README_DATA,
+                username: "octocat",
+                showBmcBadge: true,
+            },
+            5,
+        );
+
+        expect(markdown).toContain("buymeacoffee.com/ranitmanik");
+        expect(markdown).toContain('<a href="https://buymeacoffee.com/ranitmanik">');
+        expect(markdown).toContain(
+            'src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee"',
+        );
+    });
+
     it("sanitizes preview content while keeping stage placeholders", () => {
         const markdown = generatePreviewREADME(
             {

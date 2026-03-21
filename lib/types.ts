@@ -33,6 +33,7 @@ export interface ReadmeData {
     wakatimeUsername: string;
     showTrophies: boolean;
     showProfileViews: boolean;
+    showBmcBadge: boolean;
     showPinnedRepos: boolean;
 }
 
@@ -66,6 +67,7 @@ export const DEFAULT_README_DATA: ReadmeData = {
     wakatimeUsername: "",
     showTrophies: true,
     showProfileViews: true,
+    showBmcBadge: false,
     showPinnedRepos: true,
 };
 

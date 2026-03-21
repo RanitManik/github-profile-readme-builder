@@ -81,6 +81,7 @@ export function generateREADME(data: ReadmeData): string {
         wakatimeUsername,
         showTrophies,
         showProfileViews,
+        showBmcBadge,
         showPinnedRepos,
     } = data;
 
@@ -106,6 +107,7 @@ export function generateREADME(data: ReadmeData): string {
     const safeLinkedinUrl = sanitizeWebUrl(linkedinUrl);
     const safeWakatime = sanitizeUsername(wakatimeUsername) || user;
     const displayName = safeName || safeUsername || "Your Name";
+    const bmcBadge = `<a href="https://buymeacoffee.com/ranitmanik"><img height="20" alt="Buy Me a Coffee" src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee" /></a>`;
 
     // Generates a dark/light <picture> element for theme-aware images
     const pic = (d: string, l: string, attrs: string) =>
@@ -276,6 +278,7 @@ export function generateREADME(data: ReadmeData): string {
         badgeParts.push(
             `<img height="20" src="https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat" alt="Profile Views" />`,
         );
+    if (showBmcBadge) badgeParts.push(bmcBadge);
     const footerParts: string[] = [];
     if (badgeParts.length > 0) footerParts.push(`  ${badgeParts.join(" ")}`);
     const footerSection =
@@ -321,8 +324,12 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         wakatimeUsername,
         showTrophies,
         showProfileViews,
+        showBmcBadge,
         showPinnedRepos,
     } = data;
+
+    // Stage 1 acts as a showcase preview, so placeholders should render at full strength there.
+    const isShowcasePreview = formStage === 1;
 
     // Real stats only unlock when the user reaches Stage 5 (GitHub Stats & Extras)
     const showRealStats = formStage >= 5;
@@ -349,11 +356,12 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     const safeEmail = sanitizeEmail(email);
     const displayName = safeName || safeUsername || "Your Name";
     const waka = sanitizeUsername(wakatimeUsername) || user;
+    const bmcBadge = `<a href="https://buymeacoffee.com/ranitmanik"><img height="20" alt="Buy Me a Coffee" src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee" /></a>`;
     // hasWaka: shows real wakatime stats only when username is set AND stage 5 is reached
     const hasWaka = showRealStats && !!sanitizeUsername(wakatimeUsername);
 
     const plTxt = `color:#8b949e;font-style:italic;`;
-    const plImg = `filter:grayscale(1);opacity:0.4;`;
+    const plImg = isShowcasePreview ? "" : `filter:grayscale(1);opacity:0.4;`;
 
     // Show val as-is (bold), or a greyed-out italic placeholder
     const t = (val: string, fb: string) =>
@@ -369,7 +377,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     // Section heading helper: grays out the title when the user hasn't reached minStage yet
     const h2 = (text: string, minStage: number) =>
-        formStage >= minStage
+        isShowcasePreview || formStage >= minStage
             ? `\n<h2 align="center">${text}</h2>`
             : `\n<h2 align="center" style="color:#8b949e;opacity:0.45;">${text}</h2>`;
 
@@ -503,6 +511,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
                 `height="20" alt="Profile Views"`,
             ),
         );
+    if (showBmcBadge) badgeParts.push(bmcBadge);
     const footerParts: string[] = [];
     if (badgeParts.length > 0) footerParts.push(`  ${badgeParts.join(" ")}`);
     const footerSection =
