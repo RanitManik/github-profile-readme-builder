@@ -88,6 +88,7 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
                     />
                     {searchQuery && (
                         <button
+                            type="button"
                             onClick={() => setSearchQuery("")}
                             className="text-foreground-400 hover:text-foreground-100 shrink-0 text-xs"
                         >
@@ -139,6 +140,7 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
                         {data.skills.map((id) => (
                             <button
                                 key={id}
+                                type="button"
                                 onClick={() => toggle(id)}
                                 className="border-accent/50 bg-accent/10 text-accent hover:bg-danger/10 hover:border-danger/50 hover:text-danger flex cursor-pointer items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] transition-colors"
                                 title={`Remove ${id}`}

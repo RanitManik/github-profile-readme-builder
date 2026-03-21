@@ -15,6 +15,7 @@ export default function ToggleSwitch({ label, description, checked, onChange }: 
                 {description && <p className="text-foreground-400 text-xs">{description}</p>}
             </div>
             <button
+                type="button"
                 role="switch"
                 aria-checked={checked}
                 onClick={(e) => {

@@ -45,8 +45,12 @@ export default function PreviewSection({ markdown }: PreviewSectionProps) {
                             node?: unknown;
                         };
                     return (
+                        // The preview needs to mirror GitHub's raw README image rendering,
+                        // including arbitrary remote image URLs and inline sizing attributes.
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             {...rest}
+                            alt={props.alt ?? ""}
                             style={{
                                 display: "inline-block",
                                 verticalAlign: "middle",

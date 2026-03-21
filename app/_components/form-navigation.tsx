@@ -18,6 +18,7 @@ export default function FormNavigation({
     return (
         <div className="border-border bg-background_lighter flex items-center justify-between border-t px-4 py-3">
             <button
+                type="button"
                 onClick={onBack}
                 className="border-border hover:bg-background text-foreground-300 hover:text-foreground-50 flex cursor-pointer items-center gap-2 rounded-md border px-4 py-1.5 text-sm transition-colors"
             >
@@ -30,6 +31,7 @@ export default function FormNavigation({
             </span>
 
             <button
+                type="button"
                 onClick={onNext}
                 className={`flex cursor-pointer items-center gap-2 rounded-md px-4 py-1.5 text-sm font-semibold text-white transition-colors ${
                     isFinalStage

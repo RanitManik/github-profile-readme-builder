@@ -1,45 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with
-[`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Profile README Builder
 
-## Getting Started
+A guided Next.js app for creating polished GitHub profile `README.md` files with a live preview, staged form flow, tech-stack picker, and export-ready markdown.
 
-First, run the development server:
+## Features
+
+- Five-step builder for identity, profile details, work, education, skills, and GitHub widgets
+- Live README preview that mirrors GitHub-style markdown rendering
+- Dynamic cards for GitHub stats, streaks, top languages, WakaTime, trophies, pinned repos, and profile views
+- Searchable skill picker backed by `go-skill-icons`
+- One-click copy/download flow for the generated `README.md`
+
+## Stack
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Vitest
+
+## Local Setup
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run test -- --run
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Production Notes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the
-file.
+- The app is fully client-side. There is no database or authentication layer.
+- Repo suggestions are fetched from the public GitHub REST API in the browser.
+- Generated README sections rely on third-party image/card providers:
+    - `github-readme-stats.vercel.app`
+    - `streak-stats.demolab.com`
+    - `github-profile-trophy-ranit.vercel.app`
+    - `go-skill-icons.vercel.app`
+    - `komarev.com`
+- If any of those services are unavailable or rate-limited, the generated README may show broken or delayed images even though the app itself is working.
 
-This project uses
-[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to
-automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Quality Checks
 
-## Learn More
+The repo is expected to pass:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+npm run test -- --run
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback
-and contributions are welcome!
+```text
+app/
+  _components/        UI flow, form stages, preview, README generation
+components/ui/        Reusable form controls
+lib/                  Shared types and skill metadata
+public/README/        Preview placeholder assets
+styles/               Global styling
+```
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+Community docs are available in:
 
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)
-for more details.
+- [`.github/CONTRIBUTING.md`](/Users/ranitmanik/code/github-profile-readme-builder/.github/CONTRIBUTING.md)
+- [`.github/CODE_OF_CONDUCT.md`](/Users/ranitmanik/code/github-profile-readme-builder/.github/CODE_OF_CONDUCT.md)
+
+## License
+
+Add a license before publishing publicly if you want others to have clear reuse permissions.

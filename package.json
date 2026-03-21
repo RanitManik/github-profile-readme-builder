@@ -2,11 +2,12 @@
     "name": "github-profile-readme-builder",
     "version": "0.1.0",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
+        "lint": "eslint .",
         "format": "prettier --write --ignore-path .gitignore .",
         "test": "vitest"
     },

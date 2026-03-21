@@ -1,94 +1,103 @@
-"use client";
+import type { Metadata } from "next";
+import Script from "next/script";
+import HomePageClient from "@/app/_components/home-page-client";
+import { getSiteUrl, siteConfig } from "@/lib/site";
 
-import { useMemo, useState } from "react";
-import "github-markdown-css";
-import { generateREADME, generatePreviewREADME } from "@/app/_components/readme/variant-1";
-import LeftHeader from "@/app/_components/left-header";
-import PreviewSection from "@/app/_components/preview-section";
-import StageProgress from "@/app/_components/stage-progress";
-import FormNavigation from "@/app/_components/form-navigation";
-import FormStage1 from "@/app/_components/forms-stages/form-stage-1";
-import FormStage2 from "@/app/_components/forms-stages/form-stage-2";
-import FormStage3 from "@/app/_components/forms-stages/form-stage-3";
-import FormStage4 from "@/app/_components/forms-stages/form-stage-4";
-import FormStage5 from "@/app/_components/forms-stages/form-stage-5";
-import FormStageDone from "@/app/_components/forms-stages/form-stage-done";
-import { DEFAULT_README_DATA, ReadmeData } from "@/lib/types";
+const siteUrl = getSiteUrl();
 
-const TOTAL_STAGES = 5; // stages 1-5; stage 6 = Done
-
-const Page = () => {
-    const [readmeData, setReadmeData] = useState<ReadmeData>(DEFAULT_README_DATA);
-    const [formStage, setFormStage] = useState(1);
-
-    const markdown = useMemo(() => generateREADME(readmeData), [readmeData]);
-    const previewMarkdown = useMemo(
-        () => generatePreviewREADME(readmeData, formStage),
-        [readmeData, formStage],
-    );
-
-    const updateData = (updates: Partial<ReadmeData>) =>
-        setReadmeData((prev) => ({ ...prev, ...updates }));
-
-    const goNext = () => setFormStage((s) => Math.min(s + 1, TOTAL_STAGES + 1));
-    const goBack = () => setFormStage((s) => Math.max(s - 1, 1));
-    const reset = () => {
-        setReadmeData(DEFAULT_README_DATA);
-        setFormStage(1);
-    };
-
-    const isDone = formStage > TOTAL_STAGES;
-
-    return (
-        <div className="m-auto grid h-svh max-w-480 md:grid-cols-5 md:grid-rows-[auto_1fr]">
-            {/* ── Row 1 Left: Stage Progress ──────────────────────────────── */}
-            <div className="border-border col-span-2 border-r">
-                {!isDone && <StageProgress currentStage={formStage} />}
-            </div>
-
-            {/* ── Row 1 Right: Logo + Title ────────────────────────────────── */}
-            <div className="col-span-3">
-                <LeftHeader />
-            </div>
-
-            {/* ── Row 2 Left: Configuration ───────────────────────────────── */}
-            <div className="border-border col-span-2 flex min-h-0 flex-col overflow-hidden border-r">
-                {/* Scrollable form area */}
-                <div className="min-h-0 flex-1 overflow-y-auto">
-                    {formStage === 1 && (
-                        <FormStage1 data={readmeData} updateData={updateData} goNext={goNext} />
-                    )}
-                    {formStage === 2 && <FormStage2 data={readmeData} updateData={updateData} />}
-                    {formStage === 3 && <FormStage3 data={readmeData} updateData={updateData} />}
-                    {formStage === 4 && <FormStage4 data={readmeData} updateData={updateData} />}
-                    {formStage === 5 && <FormStage5 data={readmeData} updateData={updateData} />}
-                    {isDone && <FormStageDone markdown={markdown} onReset={reset} />}
-                </div>
-
-                {/* Back / Next navigation (stages 2-5) */}
-                {formStage >= 2 && !isDone && (
-                    <FormNavigation
-                        currentStage={formStage}
-                        totalStages={TOTAL_STAGES}
-                        onBack={goBack}
-                        onNext={goNext}
-                    />
-                )}
-            </div>
-
-            {/* ── Row 2 Right: Live Preview ────────────────────────────────── */}
-            <div className="col-span-3 min-h-0 overflow-hidden">
-                <div className="h-full overflow-hidden">
-                    <div className="markdown-body h-full overflow-auto p-6">
-                        {/* 846 px = GitHub's actual README content width */}
-                        <div className="mx-auto max-w-211.5">
-                            <PreviewSection markdown={previewMarkdown} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+export const metadata: Metadata = {
+    title: "GitHub README Builder & Generator",
+    description: siteConfig.description,
+    alternates: siteUrl
+        ? {
+              canonical: "/",
+          }
+        : undefined,
 };
 
-export default Page;
+const softwareApplicationSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: siteConfig.name,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Web",
+    description: siteConfig.description,
+    url: siteUrl?.toString(),
+    offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+    },
+    featureList: [
+        "GitHub profile README builder",
+        "Live markdown preview",
+        "README generator with export-ready markdown",
+        "Skill badge and widget configuration",
+        "Pinned repository and GitHub stats sections",
+    ],
+};
+
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+        {
+            "@type": "Question",
+            name: "What is this GitHub README builder used for?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "It helps developers create a GitHub profile README with guided steps, live preview, and export-ready markdown.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Does this GitHub README generator support profile widgets and skill badges?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes. The builder supports sections like GitHub stats, streaks, top languages, trophies, pinned repositories, profile views, and skill icons.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Can I use this README builder without changing the generated markdown manually?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes. The app generates markdown for you and includes a live preview so you can copy or download the finished README.md file.",
+            },
+        },
+    ],
+};
+
+export default function Page() {
+    return (
+        <>
+            <Script
+                id="software-application-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+            />
+            <Script
+                id="faq-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <HomePageClient />
+            <section className="sr-only" aria-label="GitHub README builder details">
+                <h2>GitHub README Builder and Generator</h2>
+                <p>
+                    This free GitHub profile README builder helps developers generate a polished
+                    README.md for their GitHub profile with a live preview and guided form flow.
+                </p>
+                <p>
+                    The GitHub README generator includes profile intro sections, work and education
+                    details, social links, skill badges, pinned repositories, GitHub stats, streaks,
+                    top languages, trophies, WakaTime cards, and profile view widgets.
+                </p>
+                <p>
+                    Use it to build a GitHub profile README quickly, customize the output, and copy
+                    or download the generated markdown when you are done.
+                </p>
+            </section>
+        </>
+    );
+}

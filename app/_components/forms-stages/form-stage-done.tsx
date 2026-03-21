@@ -87,6 +87,7 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
             <div className="relative z-10 flex flex-col gap-3">
                 {/* Copy */}
                 <button
+                    type="button"
                     onClick={handleCopy}
                     className={`flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold text-white transition-colors ${
                         copied ? "bg-success" : "bg-accent hover:bg-accent-600"
@@ -107,6 +108,7 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
 
                 {/* Download */}
                 <button
+                    type="button"
                     onClick={handleDownload}
                     className="border-border hover:bg-background flex cursor-pointer items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm font-semibold transition-colors"
                 >
@@ -120,6 +122,7 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
                     Want to make changes? Head back to any step — the preview updates live.
                 </p>
                 <button
+                    type="button"
                     onClick={onReset}
                     className="text-foreground-400 hover:text-foreground-100 flex cursor-pointer items-center justify-center gap-2 text-sm transition-colors"
                 >

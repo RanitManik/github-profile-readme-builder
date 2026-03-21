@@ -16,17 +16,53 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
     const [reposLoading, setReposLoading] = useState(false);
 
     useEffect(() => {
-        if (!data.username) {
+        const username = data.username.trim();
+
+        if (!username) {
             setRepos([]);
+            setReposLoading(false);
             return;
         }
 
+        const controller = new AbortController();
         setReposLoading(true);
-        fetch(`https://api.github.com/users/${data.username}/repos?per_page=100&sort=updated`)
-            .then((r) => (r.ok ? r.json() : []))
-            .then((list: { name: string }[]) => setRepos(list.map((r) => r.name)))
-            .catch(() => setRepos([]))
-            .finally(() => setReposLoading(false));
+
+        fetch(
+            `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`,
+            {
+                signal: controller.signal,
+                headers: {
+                    Accept: "application/vnd.github+json",
+                },
+            },
+        )
+            .then(async (response) => {
+                if (!response.ok) return [];
+
+                const list: unknown = await response.json();
+                if (!Array.isArray(list)) return [];
+
+                return list
+                    .map((item) =>
+                        typeof item === "object" &&
+                        item !== null &&
+                        "name" in item &&
+                        typeof item.name === "string"
+                            ? item.name
+                            : null,
+                    )
+                    .filter((repoName): repoName is string => repoName !== null);
+            })
+            .then((list) => setRepos(list))
+            .catch((error: unknown) => {
+                if (error instanceof DOMException && error.name === "AbortError") return;
+                setRepos([]);
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setReposLoading(false);
+            });
+
+        return () => controller.abort();
     }, [data.username]);
 
     return (

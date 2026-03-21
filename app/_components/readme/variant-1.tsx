@@ -1,5 +1,50 @@
 import { ReadmeData } from "@/lib/types";
 
+const normalizeText = (value: string) => value.trim();
+
+const escapeMarkdownText = (value: string) =>
+    normalizeText(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\\/g, "\\\\")
+        .replace(/([`*_{}[\]()|])/g, "\\$1");
+
+const escapeHtmlAttribute = (value: string) =>
+    normalizeText(value)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+const sanitizeUsername = (value: string) => normalizeText(value).replace(/^@+/, "");
+
+const sanitizeWebUrl = (value: string, fallback?: string) => {
+    const normalized = normalizeText(value);
+    if (!normalized) return fallback;
+
+    try {
+        const url = new URL(normalized);
+        return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : fallback;
+    } catch {
+        return fallback;
+    }
+};
+
+const sanitizeEmail = (value: string) => {
+    const normalized = normalizeText(value);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized) ? normalized : undefined;
+};
+
+const buildUrl = (base: string, params: Record<string, string>) => {
+    const url = new URL(base);
+    Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+    return url.toString();
+};
+
+const linkText = (value: string, url?: string) =>
+    url ? `[**${escapeMarkdownText(value)}**](${url})` : `**${escapeMarkdownText(value)}**`;
+
 export function generateREADME(data: ReadmeData): string {
     const {
         username,
@@ -30,52 +75,146 @@ export function generateREADME(data: ReadmeData): string {
         showPinnedRepos,
     } = data;
 
-    const user = username || "your-username";
-    const displayName = name || username || "Your Name";
-    const portfolio = portfolioUrl || `https://github.com/${user}`;
-    const gh = "https://github-readme-stats.vercel.app/api";
-    const sk = "https://streak-stats.demolab.com";
-    const tr = "https://github-profile-trophy-ranit.vercel.app";
-    const waka = wakatimeUsername || user;
+    const safeUsername = sanitizeUsername(username);
+    const user = safeUsername || "your-username";
+    const safeName = normalizeText(name);
+    const safeTagline = normalizeText(tagline);
+    const safeLocation = normalizeText(location);
+    const safeWorkingOn = normalizeText(workingOn);
+    const safeExpertise = normalizeText(expertise);
+    const safeDegree = normalizeText(degree);
+    const safeCompany = normalizeText(company);
+    const safeInstitution = normalizeText(institution);
+    const safePinnedRepo1 = normalizeText(pinnedRepo1);
+    const safePinnedRepo2 = normalizeText(pinnedRepo2);
+    const safeEmail = sanitizeEmail(email);
+    const safeCompanyUrl = sanitizeWebUrl(companyUrl);
+    const safeInstitutionUrl = sanitizeWebUrl(institutionUrl);
+    const safePortfolioUrl = sanitizeWebUrl(
+        portfolioUrl,
+        `https://github.com/${encodeURIComponent(user)}`,
+    );
+    const safeLinkedinUrl = sanitizeWebUrl(linkedinUrl);
+    const safeWakatime = sanitizeUsername(wakatimeUsername) || user;
+    const displayName = safeName || safeUsername || "Your Name";
 
     // Generates a dark/light <picture> element for theme-aware images
     const pic = (d: string, l: string, attrs: string) =>
         `<picture>\n    <source media="(prefers-color-scheme: dark)" srcset="${d}" />\n    <source media="(prefers-color-scheme: light)" srcset="${l}" />\n    <img ${attrs} src="${d}" />\n  </picture>`;
 
     const bullets: string[] = [];
-    if (workingOn) bullets.push(`- 🔭 Currently working on **${workingOn}**.`);
-    if (company)
-        bullets.push(`- 👨‍💼 ${jobTitle || "Developer"} at [**${company}**](${companyUrl || "#"}).`);
-    if (institution)
+    if (safeWorkingOn)
+        bullets.push(`- 🔭 Currently working on **${escapeMarkdownText(safeWorkingOn)}**.`);
+    if (safeCompany)
         bullets.push(
-            `- 🏫 Pursuing a ${degree || "degree"} at [**${institution}**](${institutionUrl || "#"}).`,
+            `- 👨‍💼 ${escapeMarkdownText(jobTitle || "Developer")} at ${linkText(safeCompany, safeCompanyUrl)}.`,
         );
-    if (expertise) bullets.push(`- 📚 Proficient in **${expertise}**.`);
-    if (portfolioUrl)
+    if (safeInstitution)
         bullets.push(
-            `- 🌐 Visit my [**Portfolio**](${portfolioUrl}) to explore projects and achievements.`,
+            `- 🏫 Pursuing a ${escapeMarkdownText(safeDegree || "degree")} at ${linkText(safeInstitution, safeInstitutionUrl)}.`,
         );
-    if (email) {
-        const li = linkedinUrl ? ` or connect on [**LinkedIn**](${linkedinUrl})` : "";
-        bullets.push(`- 📧 Reach me via [**Email**](mailto:${email})${li}.`);
+    if (safeExpertise) bullets.push(`- 📚 Proficient in **${escapeMarkdownText(safeExpertise)}**.`);
+    if (sanitizeWebUrl(portfolioUrl))
+        bullets.push(
+            `- 🌐 Visit my [**Portfolio**](${safePortfolioUrl}) to explore projects and achievements.`,
+        );
+    if (safeEmail) {
+        const linkedinSuffix = safeLinkedinUrl
+            ? ` or connect on [**LinkedIn**](${safeLinkedinUrl})`
+            : "";
+        bullets.push(
+            `- 📧 Reach me via [**Email**](mailto:${encodeURIComponent(safeEmail)})${linkedinSuffix}.`,
+        );
     }
-    if (location) bullets.push(`- 📍 Based in **${location}**.`);
+    if (!safeEmail && safeLinkedinUrl)
+        bullets.push(`- 💼 Connect with me on [**LinkedIn**](${safeLinkedinUrl}).`);
+    if (safeLocation) bullets.push(`- 📍 Based in **${escapeMarkdownText(safeLocation)}**.`);
 
     // Stat URLs — dark (radical theme) and light variants
-    const statD = `${gh}?username=${user}&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&count_private=true&card_width=495`;
-    const statL = `${gh}?username=${user}&show_icons=true&include_all_commits=true&count_private=true&card_width=495`;
-    const strkD = `${sk}/?user=${user}&theme=radical&hide_border=true`;
-    const strkL = `${sk}/?user=${user}`;
-    const langD = `${gh}/top-langs/?username=${user}&layout=compact&theme=radical&hide_border=true&langs_count=14&size_weight=0.5&count_weight=0.5`;
-    const langL = `${gh}/top-langs/?username=${user}&layout=compact&langs_count=14&size_weight=0.5&count_weight=0.5`;
-    const wakaD = `${gh}/wakatime?username=${waka}&layout=compact&theme=radical&hide_border=true&langs_count=14&hide=other`;
-    const wakaL = `${gh}/wakatime?username=${waka}&layout=compact&langs_count=14&hide=other`;
+    const statD = buildUrl("https://github-readme-stats.vercel.app/api", {
+        username: user,
+        show_icons: "true",
+        theme: "radical",
+        hide_border: "true",
+        include_all_commits: "true",
+        count_private: "true",
+        card_width: "495",
+    });
+    const statL = buildUrl("https://github-readme-stats.vercel.app/api", {
+        username: user,
+        show_icons: "true",
+        include_all_commits: "true",
+        count_private: "true",
+        card_width: "495",
+    });
+    const strkD = buildUrl("https://streak-stats.demolab.com", {
+        user,
+        theme: "radical",
+        hide_border: "true",
+    });
+    const strkL = buildUrl("https://streak-stats.demolab.com", { user });
+    const langD = buildUrl("https://github-readme-stats.vercel.app/api/top-langs", {
+        username: user,
+        layout: "compact",
+        theme: "radical",
+        hide_border: "true",
+        langs_count: "14",
+        size_weight: "0.5",
+        count_weight: "0.5",
+    });
+    const langL = buildUrl("https://github-readme-stats.vercel.app/api/top-langs", {
+        username: user,
+        layout: "compact",
+        langs_count: "14",
+        size_weight: "0.5",
+        count_weight: "0.5",
+    });
+    const wakaD = buildUrl("https://github-readme-stats.vercel.app/api/wakatime", {
+        username: safeWakatime,
+        layout: "compact",
+        theme: "radical",
+        hide_border: "true",
+        langs_count: "14",
+        hide: "other",
+    });
+    const wakaL = buildUrl("https://github-readme-stats.vercel.app/api/wakatime", {
+        username: safeWakatime,
+        layout: "compact",
+        langs_count: "14",
+        hide: "other",
+    });
     const pD = (r: string) =>
-        `${gh}/pin/?username=${user}&repo=${r}&layout=compact&theme=radical&hide_border=true&show_owner=true&description_lines_count=2`;
+        buildUrl("https://github-readme-stats.vercel.app/api/pin", {
+            username: user,
+            repo: r,
+            layout: "compact",
+            theme: "radical",
+            hide_border: "true",
+            show_owner: "true",
+            description_lines_count: "2",
+        });
     const pL = (r: string) =>
-        `${gh}/pin/?username=${user}&repo=${r}&layout=compact&show_owner=true&description_lines_count=2`;
-    const trD = `${tr}/?username=${user}&theme=radical&no-frame=true&no-bg=false&margin-w=4&row=1`;
-    const trL = `${tr}/?username=${user}&no-bg=false&margin-w=4&row=1`;
+        buildUrl("https://github-readme-stats.vercel.app/api/pin", {
+            username: user,
+            repo: r,
+            layout: "compact",
+            show_owner: "true",
+            description_lines_count: "2",
+        });
+    const trD = buildUrl("https://github-profile-trophy-ranit.vercel.app", {
+        username: user,
+        theme: "radical",
+        "no-frame": "true",
+        "no-bg": "false",
+        "margin-w": "4",
+        row: "1",
+    });
+    const trL = buildUrl("https://github-profile-trophy-ranit.vercel.app", {
+        username: user,
+        "no-bg": "false",
+        "margin-w": "4",
+        row: "1",
+    });
     let statsSection = "";
     if (showGithubStats || showStreakStats) {
         statsSection = `\n<h2 align="center">📊 GitHub Stats</h2>\n\n<div width="100%" align="center">\n`;
@@ -87,7 +226,7 @@ export function generateREADME(data: ReadmeData): string {
     }
 
     // WakaTime card only renders in the final README when username is explicitly set
-    const hasWakaExport = showWakatimeStats && !!wakatimeUsername;
+    const hasWakaExport = showWakatimeStats && !!sanitizeUsername(wakatimeUsername);
     let langSection = "";
     if (showTopLanguages || hasWakaExport) {
         langSection = `\n<h2 align="center">🔥 Language & Coding Activity</h2>\n\n<div width="100%" align="center">\n`;
@@ -99,17 +238,17 @@ export function generateREADME(data: ReadmeData): string {
     }
 
     let pinnedSection = "";
-    if (showPinnedRepos && (pinnedRepo1 || pinnedRepo2)) {
+    if (showPinnedRepos && (safePinnedRepo1 || safePinnedRepo2)) {
         pinnedSection = `\n<h2 align="center">📌 Pinned Repositories</h2>\n\n<div width="100%" align="center">\n`;
-        if (pinnedRepo1)
-            pinnedSection += `  ${pic(pD(pinnedRepo1), pL(pinnedRepo1), `align="center" alt="${pinnedRepo1}"`)}\n`;
-        if (pinnedRepo2)
-            pinnedSection += `  ${pic(pD(pinnedRepo2), pL(pinnedRepo2), `align="center" alt="${pinnedRepo2}"`)}\n`;
+        if (safePinnedRepo1)
+            pinnedSection += `  ${pic(pD(safePinnedRepo1), pL(safePinnedRepo1), `align="center" alt="${escapeHtmlAttribute(safePinnedRepo1)}"`)}\n`;
+        if (safePinnedRepo2)
+            pinnedSection += `  ${pic(pD(safePinnedRepo2), pL(safePinnedRepo2), `align="center" alt="${escapeHtmlAttribute(safePinnedRepo2)}"`)}\n`;
         pinnedSection += `</div>\n`;
     }
 
     const trophiesSection = showTrophies
-        ? `\n<h2 align="center">🏆 GitHub Trophies</h2>\n\n<div width="100%" align="center">\n  <a href="${portfolio}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${trD}" />\n      <source media="(prefers-color-scheme: light)" srcset="${trL}" />\n      <img width="804px" alt="GitHub Trophies" src="${trD}" />\n    </picture>\n  </a>\n</div>\n`
+        ? `\n<h2 align="center">🏆 GitHub Trophies</h2>\n\n<div width="100%" align="center">\n  <a href="${safePortfolioUrl}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${trD}" />\n      <source media="(prefers-color-scheme: light)" srcset="${trL}" />\n      <img width="804px" alt="GitHub Trophies" src="${trD}" />\n    </picture>\n  </a>\n</div>\n`
         : "";
 
     const SKILLS_PER_ROW = 13;
@@ -138,8 +277,8 @@ export function generateREADME(data: ReadmeData): string {
             ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
             : "";
 
-    return `# Hi👋, I'm [${displayName}](${portfolio})
-${tagline ? `\n<h3>${tagline}</h3>\n` : ""}
+    return `# Hi👋, I'm [${escapeMarkdownText(displayName)}](${safePortfolioUrl})
+${safeTagline ? `\n### ${escapeMarkdownText(safeTagline)}\n` : ""}
 ${bullets.length > 0 ? bullets.join("\n") : "<!-- Fill in the form on the left to personalise your README →"}
 
 <hr>
@@ -181,21 +320,40 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     // Real stats only unlock when the user reaches Stage 5 (GitHub Stats & Extras)
     const showRealStats = formStage >= 5;
-    const hasUser = showRealStats && !!username;
-    const user = username || "your-username";
-    const displayName = name || username || "Your Name";
-    const portfolio = portfolioUrl || `https://github.com/${user}`;
-    const gh = "https://github-readme-stats.vercel.app/api";
-    const waka = wakatimeUsername || user;
+    const safeUsername = sanitizeUsername(username);
+    const hasUser = showRealStats && !!safeUsername;
+    const user = safeUsername || "your-username";
+    const safeName = normalizeText(name);
+    const safeTagline = normalizeText(tagline);
+    const safeLocation = normalizeText(location);
+    const safeWorkingOn = normalizeText(workingOn);
+    const safeExpertise = normalizeText(expertise);
+    const safeDegree = normalizeText(degree);
+    const safeCompany = normalizeText(company);
+    const safeInstitution = normalizeText(institution);
+    const safePinnedRepo1 = normalizeText(pinnedRepo1);
+    const safePinnedRepo2 = normalizeText(pinnedRepo2);
+    const safeCompanyUrl = sanitizeWebUrl(companyUrl, "#");
+    const safeInstitutionUrl = sanitizeWebUrl(institutionUrl, "#");
+    const safePortfolioUrl = sanitizeWebUrl(
+        portfolioUrl,
+        `https://github.com/${encodeURIComponent(user)}`,
+    );
+    const safeLinkedinUrl = sanitizeWebUrl(linkedinUrl, "#");
+    const safeEmail = sanitizeEmail(email);
+    const displayName = safeName || safeUsername || "Your Name";
+    const waka = sanitizeUsername(wakatimeUsername) || user;
     // hasWaka: shows real wakatime stats only when username is set AND stage 5 is reached
-    const hasWaka = showRealStats && !!wakatimeUsername;
+    const hasWaka = showRealStats && !!sanitizeUsername(wakatimeUsername);
 
     const plTxt = `color:#8b949e;font-style:italic;`;
     const plImg = `filter:grayscale(1);opacity:0.4;`;
 
     // Show val as-is (bold), or a greyed-out italic placeholder
     const t = (val: string, fb: string) =>
-        val ? `**${val}**` : `<span style="${plTxt}">${fb}</span>`;
+        normalizeText(val)
+            ? `**${escapeMarkdownText(val)}**`
+            : `<span style="${plTxt}">${escapeHtmlAttribute(fb)}</span>`;
 
     // Returns a real img or a local SVG placeholder with grayscale
     const img = (isReal: boolean, realSrc: string, localSrc: string, attrs = "") =>
@@ -210,24 +368,69 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
             : `\n<h2 align="center" style="color:#8b949e;opacity:0.45;">${text}</h2>`;
 
     // All 7 bullets — always shown, placeholders when fields are empty
+    const contactTarget = safeEmail ? `mailto:${encodeURIComponent(safeEmail)}` : "#";
+    const linkedinText =
+        safeLinkedinUrl !== "#" ? ` or connect on [**LinkedIn**](${safeLinkedinUrl})` : "";
     const bullets = [
-        `- 🔭 Currently working on ${t(workingOn, "your current project")}.`,
-        `- 👨‍💼 ${jobTitle || "Developer"} at [${t(company, "Your Company")}](${companyUrl || "#"}).`,
-        `- 🏫 Pursuing a ${degree || "degree"} at [${t(institution, "Your Institution")}](${institutionUrl || "#"}).`,
-        `- 📚 Proficient in ${t(expertise, "your expertise")}.`,
-        `- 🌐 Visit my [**Portfolio**](${portfolioUrl || "#"}) to explore projects.`,
-        `- 📧 Reach me via [**Email**](mailto:${email || "#"})${linkedinUrl ? ` or connect on [**LinkedIn**](${linkedinUrl})` : ""}.`,
-        `- 📍 Based in ${t(location, "Your Location")}.`,
+        `- 🔭 Currently working on ${t(safeWorkingOn, "your current project")}.`,
+        `- 👨‍💼 ${escapeMarkdownText(jobTitle || "Developer")} at [${t(safeCompany, "Your Company")}](${safeCompanyUrl}).`,
+        `- 🏫 Pursuing a ${escapeMarkdownText(safeDegree || "degree")} at [${t(safeInstitution, "Your Institution")}](${safeInstitutionUrl}).`,
+        `- 📚 Proficient in ${t(safeExpertise, "your expertise")}.`,
+        `- 🌐 Visit my [**Portfolio**](${safePortfolioUrl}) to explore projects.`,
+        `- 📧 Reach me via [**Email**](${contactTarget})${linkedinText}.`,
+        `- 📍 Based in ${t(safeLocation, "Your Location")}.`,
     ].join("\n");
 
     // Real stat URLs — match improved params from generateREADME (dark variant for preview)
-    const statReal = `${gh}?username=${user}&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&count_private=true&card_width=495`;
-    const strkReal = `https://streak-stats.demolab.com/?user=${user}&theme=radical&hide_border=true`;
-    const langReal = `${gh}/top-langs/?username=${user}&layout=compact&theme=radical&hide_border=true&langs_count=14&size_weight=0.5&count_weight=0.5`;
-    const wakaReal = `${gh}/wakatime?username=${waka}&layout=compact&theme=radical&hide_border=true&langs_count=14&hide=other`;
+    const statReal = buildUrl("https://github-readme-stats.vercel.app/api", {
+        username: user,
+        show_icons: "true",
+        theme: "radical",
+        hide_border: "true",
+        include_all_commits: "true",
+        count_private: "true",
+        card_width: "495",
+    });
+    const strkReal = buildUrl("https://streak-stats.demolab.com", {
+        user,
+        theme: "radical",
+        hide_border: "true",
+    });
+    const langReal = buildUrl("https://github-readme-stats.vercel.app/api/top-langs", {
+        username: user,
+        layout: "compact",
+        theme: "radical",
+        hide_border: "true",
+        langs_count: "14",
+        size_weight: "0.5",
+        count_weight: "0.5",
+    });
+    const wakaReal = buildUrl("https://github-readme-stats.vercel.app/api/wakatime", {
+        username: waka,
+        layout: "compact",
+        theme: "radical",
+        hide_border: "true",
+        langs_count: "14",
+        hide: "other",
+    });
     const pinnReal = (r: string) =>
-        `${gh}/pin/?username=${user}&repo=${r}&layout=compact&theme=radical&hide_border=true&show_owner=true&description_lines_count=2`;
-    const trphReal = `https://github-profile-trophy-ranit.vercel.app/?username=${user}&theme=radical&no-frame=true&no-bg=false&margin-w=4&row=1`;
+        buildUrl("https://github-readme-stats.vercel.app/api/pin", {
+            username: user,
+            repo: r,
+            layout: "compact",
+            theme: "radical",
+            hide_border: "true",
+            show_owner: "true",
+            description_lines_count: "2",
+        });
+    const trphReal = buildUrl("https://github-profile-trophy-ranit.vercel.app", {
+        username: user,
+        theme: "radical",
+        "no-frame": "true",
+        "no-bg": "false",
+        "margin-w": "4",
+        row: "1",
+    });
 
     // GitHub Stats — heading grayed until stage 5
     let statsSection = "";
@@ -256,8 +459,8 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     let pinnedSection = "";
     if (showPinnedRepos) {
         pinnedSection = `${h2("📌 Pinned Repositories", 5)}\n\n<div width="100%" align="center">\n`;
-        pinnedSection += `  ${img(hasUser && !!pinnedRepo1, pinnReal(pinnedRepo1), "/README/variant-1/dark/pinned-repo-1.svg", `align="center" alt="Pinned Repo 1"`)}\n`;
-        pinnedSection += `  ${img(hasUser && !!pinnedRepo2, pinnReal(pinnedRepo2), "/README/variant-1/dark/pinned-repo-2.svg", `align="center" alt="Pinned Repo 2"`)}\n`;
+        pinnedSection += `  ${img(hasUser && !!safePinnedRepo1, pinnReal(safePinnedRepo1), "/README/variant-1/dark/pinned-repo-1.svg", `align="center" alt="Pinned Repo 1"`)}\n`;
+        pinnedSection += `  ${img(hasUser && !!safePinnedRepo2, pinnReal(safePinnedRepo2), "/README/variant-1/dark/pinned-repo-2.svg", `align="center" alt="Pinned Repo 2"`)}\n`;
         pinnedSection += `</div>\n`;
     }
 
@@ -266,7 +469,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     const trphSrc = hasUser ? trphReal : trphPlaceholder;
     const trphStyle = hasUser ? "" : ` style="${plImg}"`;
     const trophiesSection = showTrophies
-        ? `${h2("🏆 GitHub Trophies", 5)}\n\n<div width="100%" align="center">\n  <a href="${portfolio}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${trphSrc}" />\n      <source media="(prefers-color-scheme: light)" srcset="${trphSrc}" />\n      <img width="804px" alt="GitHub Trophies" src="${trphSrc}"${trphStyle} />\n    </picture>\n  </a>\n</div>\n`
+        ? `${h2("🏆 GitHub Trophies", 5)}\n\n<div width="100%" align="center">\n  <a href="${safePortfolioUrl}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${trphSrc}" />\n      <source media="(prefers-color-scheme: light)" srcset="${trphSrc}" />\n      <img width="804px" alt="GitHub Trophies" src="${trphSrc}"${trphStyle} />\n    </picture>\n  </a>\n</div>\n`
         : "";
 
     // Tech Stack — heading grayed until stage 4; <br /> between rows only (not after last); wrapped in <a>
@@ -305,11 +508,11 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
             : "";
 
     const nameDisplay =
-        name || username
-            ? `[${displayName}](${portfolio})`
+        safeName || safeUsername
+            ? `[${escapeMarkdownText(displayName)}](${safePortfolioUrl})`
             : `<span style="${plTxt}">Your Name</span>`;
-    const taglineDisplay = tagline
-        ? `\n<h3>${tagline}</h3>\n`
+    const taglineDisplay = safeTagline
+        ? `\n### ${escapeMarkdownText(safeTagline)}\n`
         : `\n<h3 style="${plTxt}">Your tagline goes here</h3>\n`;
 
     return `# Hi👋, I'm ${nameDisplay}${taglineDisplay}
