@@ -1,16 +1,16 @@
 # GitHub Profile README Builder
 
-A guided Next.js app for creating polished GitHub profile `README.md` files with a live preview, staged form flow, tech-stack picker, and export-ready markdown.
+GitHub Profile README Builder is a guided web app for creating polished, export-ready GitHub profile `README.md` files. It combines a structured multi-step form, live preview, skill selection, and GitHub widget configuration so users can build a profile README without writing markdown by hand.
 
-## Features
+## Highlights
 
-- Five-step builder for identity, profile details, work, education, skills, and GitHub widgets
-- Live README preview that mirrors GitHub-style markdown rendering
-- Dynamic cards for GitHub stats, streaks, top languages, WakaTime, trophies, pinned repos, and profile views
-- Searchable skill picker backed by `go-skill-icons`
-- One-click copy/download flow for the generated `README.md`
+- Guided five-step workflow for profile, work, education, skills, and widgets
+- Live markdown preview with GitHub-style rendering
+- Searchable tech stack picker powered by `go-skill-icons`
+- Support for popular GitHub profile widgets and cards
+- One-click copy and download for the generated `README.md`
 
-## Stack
+## Built With
 
 - Next.js 15
 - React 19
@@ -18,64 +18,80 @@ A guided Next.js app for creating polished GitHub profile `README.md` files with
 - Tailwind CSS 4
 - Vitest
 
-## Local Setup
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ recommended
+- npm
+
+### Installation
 
 ```bash
 npm install
-npm run dev
 ```
 
-Open `http://localhost:3000`.
-
-## Scripts
+### Run Locally
 
 ```bash
 npm run dev
-npm run lint
-npm run test -- --run
-npm run build
 ```
 
-## Production Notes
+Open `http://localhost:3000` in your browser.
 
-- The app is fully client-side. There is no database or authentication layer.
-- Repo suggestions are fetched from the public GitHub REST API in the browser.
-- Generated README sections rely on third-party image/card providers:
-    - `github-readme-stats.vercel.app`
-    - `streak-stats.demolab.com`
-    - `github-profile-trophy-ranit.vercel.app`
-    - `go-skill-icons.vercel.app`
-    - `komarev.com`
-- If any of those services are unavailable or rate-limited, the generated README may show broken or delayed images even though the app itself is working.
-
-## Quality Checks
-
-The repo is expected to pass:
+## Available Scripts
 
 ```bash
+npm run dev
+npm run build
+npm run start
 npm run lint
 npm run test -- --run
-npm run build
+npm run format
 ```
+
+## How It Works
+
+1. Fill out the staged form with your profile details.
+2. Choose skills, widgets, and profile sections.
+3. Preview the generated markdown in real time.
+4. Copy or download the final `README.md`.
 
 ## Project Structure
 
 ```text
 app/
-  _components/        UI flow, form stages, preview, README generation
-components/ui/        Reusable form controls
-lib/                  Shared types and skill metadata
-public/README/        Preview placeholder assets
-styles/               Global styling
+  _components/        Core builder flow, preview, and README generation
+components/ui/        Shared UI primitives
+lib/                  Shared types and supporting data
+public/README/        Preview assets
+styles/               Global styles
+```
+
+## Production Notes
+
+- The application is fully client-side and does not require a database or authentication.
+- Repository suggestions are fetched from the public GitHub REST API in the browser.
+- Generated README widgets depend on third-party providers such as GitHub stats, streaks, trophies, and skill icon services.
+- If those services are unavailable or rate-limited, generated widget images may not render correctly even when the app itself is working as expected.
+
+## Quality Checks
+
+Run the following before publishing changes:
+
+```bash
+npm run lint
+npm run test -- --run
+npm run build
 ```
 
 ## Contributing
 
-Community docs are available in:
+Contributions are welcome. Please review the project guidelines before opening a pull request:
 
-- [`.github/CONTRIBUTING.md`](/Users/ranitmanik/code/github-profile-readme-builder/.github/CONTRIBUTING.md)
-- [`.github/CODE_OF_CONDUCT.md`](/Users/ranitmanik/code/github-profile-readme-builder/.github/CODE_OF_CONDUCT.md)
+- [Contributing Guide](./.github/CONTRIBUTING.md)
+- [Code of Conduct](./.github/CODE_OF_CONDUCT.md)
 
 ## License
 
-Add a license before publishing publicly if you want others to have clear reuse permissions.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
