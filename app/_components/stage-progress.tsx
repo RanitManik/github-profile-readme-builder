@@ -60,4 +60,3 @@ export default function StageProgress({ currentStage }: StageProgressProps) {
         </div>
     );
 }
-

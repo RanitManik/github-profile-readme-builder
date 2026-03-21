@@ -7,19 +7,16 @@ involved.
 ## How to Contribute
 
 1. **Fork the Repository**:
-
     - Navigate to the repository you want to contribute to.
     - Click the "Fork" button at the top right corner of the page.
 
 2. **Clone Your Fork**:
-
     - Open your terminal and run:
         ```sh
         git clone https://github.com/RanitManik/github-profile-readme-builder.git
         ```
 
 3. **Create a Branch**:
-
     - Move into the cloned directory:
         ```sh
         cd github-profile-readme-builder
@@ -30,11 +27,9 @@ involved.
         ```
 
 4. **Make Your Changes**:
-
     - Implement your changes in your local repository.
 
 5. **Commit Your Changes**:
-
     - Add your changes:
         ```sh
         git add .
@@ -45,7 +40,6 @@ involved.
         ```
 
 6. **Push to Your Fork**:
-
     - Push your changes to your forked repository:
         ```sh
         git push origin feature-branch-name

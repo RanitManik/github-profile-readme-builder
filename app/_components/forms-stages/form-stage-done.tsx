@@ -43,8 +43,8 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
                 <p className="text-foreground-400 m-auto max-w-sm text-sm">
                     The live preview is on the right. Switch between{" "}
                     <span className="text-foreground-100 font-medium">Preview</span> and{" "}
-                    <span className="text-foreground-100 font-medium">Code</span> tabs — then copy or
-                    download your file.
+                    <span className="text-foreground-100 font-medium">Code</span> tabs — then copy
+                    or download your file.
                 </p>
             </header>
 
@@ -94,4 +94,3 @@ export default function FormStageDone({ markdown, onReset }: FormStageDoneProps)
         </div>
     );
 }
-

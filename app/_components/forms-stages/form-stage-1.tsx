@@ -64,7 +64,7 @@ export default function FormStage1({ data, updateData, goNext }: FormStage1Props
                 <button
                     type="submit"
                     disabled={!data.username.trim()}
-                    className="bg-success hover:bg-success-500 active:bg-success-700 disabled:opacity-50 flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-1.5 font-semibold text-white transition-colors duration-75 disabled:cursor-not-allowed"
+                    className="bg-success hover:bg-success-500 active:bg-success-700 flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-1.5 font-semibold text-white transition-colors duration-75 disabled:cursor-not-allowed disabled:opacity-50"
                     aria-label="Start building your README"
                 >
                     Start Building Your Profile

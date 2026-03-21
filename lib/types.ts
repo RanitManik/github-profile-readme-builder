@@ -78,4 +78,3 @@ export const STAGE_LABELS: Record<number, string> = {
     4: "Tech Stack",
     5: "GitHub Stats",
 };
-

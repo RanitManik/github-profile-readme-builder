@@ -22,7 +22,10 @@ const Page = () => {
     const [formStage, setFormStage] = useState(1);
 
     const markdown = useMemo(() => generateREADME(readmeData), [readmeData]);
-    const previewMarkdown = useMemo(() => generatePreviewREADME(readmeData, formStage), [readmeData, formStage]);
+    const previewMarkdown = useMemo(
+        () => generatePreviewREADME(readmeData, formStage),
+        [readmeData, formStage],
+    );
 
     const updateData = (updates: Partial<ReadmeData>) =>
         setReadmeData((prev) => ({ ...prev, ...updates }));
@@ -75,7 +78,7 @@ const Page = () => {
 
             {/* ── Row 2 Right: Live Preview ────────────────────────────────── */}
             <div className="col-span-3 min-h-0 overflow-hidden">
-                <div className=" h-full overflow-hidden ">
+                <div className="h-full overflow-hidden">
                     <div className="markdown-body h-full overflow-auto p-6">
                         {/* 846 px = GitHub's actual README content width */}
                         <div className="mx-auto max-w-211.5">

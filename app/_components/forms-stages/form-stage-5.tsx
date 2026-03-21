@@ -67,7 +67,9 @@ function RepoSelect({
     const ref = useRef<HTMLDivElement>(null);
 
     // Keep local query in sync when parent value changes (e.g. cleared externally)
-    useEffect(() => { setQuery(value); }, [value]);
+    useEffect(() => {
+        setQuery(value);
+    }, [value]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -89,15 +91,24 @@ function RepoSelect({
                     type="text"
                     placeholder={loading ? "Fetching repos…" : placeholder}
                     value={query}
-                    onChange={(e) => { setQuery(e.target.value); onChange(e.target.value); setOpen(true); }}
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                        onChange(e.target.value);
+                        setOpen(true);
+                    }}
                     onFocus={() => repos.length > 0 && setOpen(true)}
                 />
                 {query && (
                     <button
                         type="button"
                         aria-label="Clear"
-                        className="text-foreground-400 hover:text-foreground-100 absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-xs"
-                        onMouseDown={(e) => { e.preventDefault(); onChange(""); setQuery(""); setOpen(false); }}
+                        className="text-foreground-400 hover:text-foreground-100 absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer text-xs"
+                        onMouseDown={(e) => {
+                            e.preventDefault();
+                            onChange("");
+                            setQuery("");
+                            setOpen(false);
+                        }}
                     >
                         ✕
                     </button>
@@ -108,7 +119,11 @@ function RepoSelect({
                             <li
                                 key={r}
                                 className="hover:bg-accent/10 cursor-pointer px-3 py-1.5 text-sm"
-                                onMouseDown={() => { onChange(r); setQuery(r); setOpen(false); }}
+                                onMouseDown={() => {
+                                    onChange(r);
+                                    setQuery(r);
+                                    setOpen(false);
+                                }}
                             >
                                 {r}
                             </li>
@@ -126,7 +141,10 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
 
     // Fetch public repos whenever the GitHub username changes
     useEffect(() => {
-        if (!data.username) { setRepos([]); return; }
+        if (!data.username) {
+            setRepos([]);
+            return;
+        }
         setReposLoading(true);
         fetch(`https://api.github.com/users/${data.username}/repos?per_page=100&sort=updated`)
             .then((r) => (r.ok ? r.json() : []))
@@ -140,11 +158,12 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
             <header className="space-y-1">
                 <h2 className="text-lg font-bold">GitHub Stats &amp; Extras</h2>
                 <p className="text-foreground-400 text-xs">
-                    Choose which dynamic widgets to include in your README. They update automatically from GitHub.
+                    Choose which dynamic widgets to include in your README. They update
+                    automatically from GitHub.
                 </p>
             </header>
 
-            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold uppercase tracking-wider">
+            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
                 📊 Statistics
             </p>
 
@@ -175,9 +194,7 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                 />
                 {data.showWakatimeStats && (
                     <div className="space-y-1 pl-3">
-                        <label className="block text-xs font-semibold">
-                            WakaTime Username
-                        </label>
+                        <label className="block text-xs font-semibold">WakaTime Username</label>
                         <input
                             className={inputCls}
                             type="text"
@@ -189,7 +206,7 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                 )}
             </div>
 
-            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold uppercase tracking-wider">
+            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
                 🏆 Showcase
             </p>
 
@@ -228,7 +245,7 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                 )}
             </div>
 
-            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold uppercase tracking-wider">
+            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
                 ✨ Extras
             </p>
 
@@ -249,4 +266,3 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
         </div>
     );
 }
-

@@ -24,7 +24,9 @@ const Field = ({
     <div className="space-y-1">
         <label className="block text-sm font-semibold">
             {label}
-            {optional && <span className="text-foreground-500 ml-1 text-xs font-normal">(optional)</span>}
+            {optional && (
+                <span className="text-foreground-500 ml-1 text-xs font-normal">(optional)</span>
+            )}
         </label>
         {hint && <p className="text-foreground-500 text-xs">{hint}</p>}
         {children}
@@ -37,12 +39,13 @@ export default function FormStage3({ data, updateData }: FormStage3Props) {
             <header className="space-y-1">
                 <h2 className="text-lg font-bold">Work &amp; Education</h2>
                 <p className="text-foreground-400 text-xs">
-                    Showcase what you&apos;re working on, where you work, and your academic background.
+                    Showcase what you&apos;re working on, where you work, and your academic
+                    background.
                 </p>
             </header>
 
             {/* ── Work ── */}
-            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold uppercase tracking-wider">
+            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
                 💼 Work
             </p>
 
@@ -87,7 +90,11 @@ export default function FormStage3({ data, updateData }: FormStage3Props) {
                 </Field>
             </div>
 
-            <Field label="Areas of Expertise" optional hint='e.g. "Full Stack Development, Machine Learning"'>
+            <Field
+                label="Areas of Expertise"
+                optional
+                hint='e.g. "Full Stack Development, Machine Learning"'
+            >
                 <input
                     className={inputCls}
                     type="text"
@@ -98,7 +105,7 @@ export default function FormStage3({ data, updateData }: FormStage3Props) {
             </Field>
 
             {/* ── Education ── */}
-            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold uppercase tracking-wider">
+            <p className="text-foreground-300 border-border border-b pb-1 text-xs font-semibold tracking-wider uppercase">
                 🏫 Education
             </p>
 
@@ -132,8 +139,6 @@ export default function FormStage3({ data, updateData }: FormStage3Props) {
                     />
                 </Field>
             </div>
-
         </div>
     );
 }
-

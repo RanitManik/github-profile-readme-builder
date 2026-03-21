@@ -44,7 +44,10 @@ function CategorySelect({
                 className="border-border bg-background_lighter text-foreground-200 hover:border-foreground-400 flex cursor-pointer items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs transition-colors focus:outline-none"
             >
                 <span className="max-w-30 truncate">{value}</span>
-                <ChevronDown size={11} className={`text-foreground-400 transition-transform ${open ? "rotate-180" : ""}`} />
+                <ChevronDown
+                    size={11}
+                    className={`text-foreground-400 transition-transform ${open ? "rotate-180" : ""}`}
+                />
             </button>
 
             {open && (
@@ -53,9 +56,20 @@ function CategorySelect({
                         <li
                             key={opt}
                             className="hover:bg-accent/10 flex cursor-pointer items-center justify-between px-3 py-1.5 text-xs"
-                            onMouseDown={() => { onChange(opt); setOpen(false); }}
+                            onMouseDown={() => {
+                                onChange(opt);
+                                setOpen(false);
+                            }}
                         >
-                            <span className={value === opt ? "text-accent font-medium" : "text-foreground-200"}>{opt}</span>
+                            <span
+                                className={
+                                    value === opt
+                                        ? "text-accent font-medium"
+                                        : "text-foreground-200"
+                                }
+                            >
+                                {opt}
+                            </span>
                             {value === opt && <Check size={11} className="text-accent shrink-0" />}
                         </li>
                     ))}
@@ -82,16 +96,16 @@ function SkillChip({
         <button
             onClick={onToggle}
             title={name}
-            className={`group flex flex-col items-center gap-1 rounded-lg border p-2 transition-all duration-150 cursor-pointer ${
+            className={`group flex cursor-pointer flex-col items-center gap-1 rounded-lg border p-2 transition-all duration-150 ${
                 selected
                     ? "border-accent bg-accent/10 shadow-[0_0_8px_rgba(68,147,248,0.25)]"
                     : "border-border bg-background_lighter hover:border-foreground-400"
             }`}
         >
-            <div className="relative h-8 w-8 flex items-center justify-center">
+            <div className="relative flex h-8 w-8 items-center justify-center">
                 {/* Skeleton shown until image loads */}
                 {!loaded && (
-                    <div className="absolute inset-0 rounded-md bg-border/60 animate-pulse" />
+                    <div className="bg-border/60 absolute inset-0 animate-pulse rounded-md" />
                 )}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -130,14 +144,14 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
 
     // Skills pool for the active category
     const categorySkills =
-        activeCategory === ALL_CAT
-            ? ALL_SKILLS
-            : getSkillsByCategory(activeCategory);
+        activeCategory === ALL_CAT ? ALL_SKILLS : getSkillsByCategory(activeCategory);
 
     // Filter by search query within the active category
     const q = searchQuery.trim().toLowerCase();
     const filteredSkills = q
-        ? categorySkills.filter((s) => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q))
+        ? categorySkills.filter(
+              (s) => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q),
+          )
         : categorySkills;
 
     // Reset pagination & scroll position whenever the category or search query changes
@@ -150,7 +164,9 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
     useEffect(() => {
         if (!sentinel || !scrollRef.current) return;
         const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setVisibleCount((v) => v + PAGE_SIZE); },
+            ([entry]) => {
+                if (entry.isIntersecting) setVisibleCount((v) => v + PAGE_SIZE);
+            },
             { root: scrollRef.current, rootMargin: "300px" },
         );
         observer.observe(sentinel);
@@ -182,7 +198,7 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
                         placeholder={`Search${activeCategory !== ALL_CAT ? ` in ${activeCategory}` : ""}…`}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-transparent text-xs outline-none placeholder:text-foreground-600"
+                        className="placeholder:text-foreground-600 w-full bg-transparent text-xs outline-none"
                     />
                     {searchQuery && (
                         <button
@@ -197,7 +213,10 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
                 {/* Category dropdown */}
                 <CategorySelect
                     value={activeCategory}
-                    onChange={(v) => { setActiveCategory(v); setSearchQuery(""); }}
+                    onChange={(v) => {
+                        setActiveCategory(v);
+                        setSearchQuery("");
+                    }}
                     options={[ALL_CAT, ...CATEGORIES]}
                 />
             </div>
@@ -205,7 +224,9 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
             {/* Icon grid — virtualized: only renders up to PAGE_SIZE items at once */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4">
                 {filteredSkills.length === 0 ? (
-                    <p className="text-foreground-500 pt-4 text-center text-xs">No results for &ldquo;{searchQuery}&rdquo;</p>
+                    <p className="text-foreground-500 pt-4 text-center text-xs">
+                        No results for &ldquo;{searchQuery}&rdquo;
+                    </p>
                 ) : (
                     <>
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(68px,1fr))] gap-2">
@@ -245,4 +266,3 @@ export default function FormStage4({ data, updateData }: FormStage4Props) {
         </div>
     );
 }
-

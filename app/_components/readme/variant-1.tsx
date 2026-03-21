@@ -2,13 +2,33 @@ import { ReadmeData } from "@/lib/types";
 
 export function generateREADME(data: ReadmeData): string {
     const {
-        username, name, tagline, location, portfolioUrl, email, linkedinUrl,
-        jobTitle, company, companyUrl, workingOn, expertise,
-        degree, institution, institutionUrl,
-        pinnedRepo1, pinnedRepo2, skills,
-        showGithubStats, showStreakStats, showTopLanguages,
-        showWakatimeStats, wakatimeUsername,
-        showTrophies, showSnake, showProfileViews, showPinnedRepos,
+        username,
+        name,
+        tagline,
+        location,
+        portfolioUrl,
+        email,
+        linkedinUrl,
+        jobTitle,
+        company,
+        companyUrl,
+        workingOn,
+        expertise,
+        degree,
+        institution,
+        institutionUrl,
+        pinnedRepo1,
+        pinnedRepo2,
+        skills,
+        showGithubStats,
+        showStreakStats,
+        showTopLanguages,
+        showWakatimeStats,
+        wakatimeUsername,
+        showTrophies,
+        showSnake,
+        showProfileViews,
+        showPinnedRepos,
     } = data;
 
     const user = username || "your-username";
@@ -25,10 +45,17 @@ export function generateREADME(data: ReadmeData): string {
 
     const bullets: string[] = [];
     if (workingOn) bullets.push(`- 🔭 Currently working on **${workingOn}**.`);
-    if (company) bullets.push(`- 👨‍💼 ${jobTitle || "Developer"} at [**${company}**](${companyUrl || "#"}).`);
-    if (institution) bullets.push(`- 🏫 Pursuing a ${degree || "degree"} at [**${institution}**](${institutionUrl || "#"}).`);
+    if (company)
+        bullets.push(`- 👨‍💼 ${jobTitle || "Developer"} at [**${company}**](${companyUrl || "#"}).`);
+    if (institution)
+        bullets.push(
+            `- 🏫 Pursuing a ${degree || "degree"} at [**${institution}**](${institutionUrl || "#"}).`,
+        );
     if (expertise) bullets.push(`- 📚 Proficient in **${expertise}**.`);
-    if (portfolioUrl) bullets.push(`- 🌐 Visit my [**Portfolio**](${portfolioUrl}) to explore projects and achievements.`);
+    if (portfolioUrl)
+        bullets.push(
+            `- 🌐 Visit my [**Portfolio**](${portfolioUrl}) to explore projects and achievements.`,
+        );
     if (email) {
         const li = linkedinUrl ? ` or connect on [**LinkedIn**](${linkedinUrl})` : "";
         bullets.push(`- 📧 Reach me via [**Email**](mailto:${email})${li}.`);
@@ -44,8 +71,10 @@ export function generateREADME(data: ReadmeData): string {
     const langL = `${gh}/top-langs/?username=${user}&layout=compact&langs_count=14&size_weight=0.5&count_weight=0.5`;
     const wakaD = `${gh}/wakatime?username=${waka}&layout=compact&theme=radical&hide_border=true&langs_count=14&hide=other`;
     const wakaL = `${gh}/wakatime?username=${waka}&layout=compact&langs_count=14&hide=other`;
-    const pD = (r: string) => `${gh}/pin/?username=${user}&repo=${r}&layout=compact&theme=radical&hide_border=true&show_owner=true&description_lines_count=2`;
-    const pL = (r: string) => `${gh}/pin/?username=${user}&repo=${r}&layout=compact&show_owner=true&description_lines_count=2`;
+    const pD = (r: string) =>
+        `${gh}/pin/?username=${user}&repo=${r}&layout=compact&theme=radical&hide_border=true&show_owner=true&description_lines_count=2`;
+    const pL = (r: string) =>
+        `${gh}/pin/?username=${user}&repo=${r}&layout=compact&show_owner=true&description_lines_count=2`;
     const trD = `${tr}/?username=${user}&theme=radical&no-frame=true&no-bg=false&margin-w=4&row=1`;
     const trL = `${tr}/?username=${user}&no-bg=false&margin-w=4&row=1`;
     const snkD = `https://raw.githubusercontent.com/${user}/${user}/output/github-contribution-grid-snake-dark.svg`;
@@ -54,8 +83,10 @@ export function generateREADME(data: ReadmeData): string {
     let statsSection = "";
     if (showGithubStats || showStreakStats) {
         statsSection = `\n<h2 align="center">📊 GitHub Stats</h2>\n\n<div width="100%" align="center">\n`;
-        if (showGithubStats) statsSection += `  ${pic(statD, statL, `width="400px" align="center" alt="GitHub Stats"`)}\n`;
-        if (showStreakStats) statsSection += `  ${pic(strkD, strkL, `width="400px" align="center" alt="Streak Stats"`)}\n`;
+        if (showGithubStats)
+            statsSection += `  ${pic(statD, statL, `width="400px" align="center" alt="GitHub Stats"`)}\n`;
+        if (showStreakStats)
+            statsSection += `  ${pic(strkD, strkL, `width="400px" align="center" alt="Streak Stats"`)}\n`;
         statsSection += `</div>\n`;
     }
 
@@ -64,16 +95,20 @@ export function generateREADME(data: ReadmeData): string {
     let langSection = "";
     if (showTopLanguages || hasWakaExport) {
         langSection = `\n<h2 align="center">🔥 Language & Coding Activity</h2>\n\n<div width="100%" align="center">\n`;
-        if (showTopLanguages) langSection += `  ${pic(langD, langL, `align="center" alt="Top Languages"`)}\n`;
-        if (hasWakaExport) langSection += `  ${pic(wakaD, wakaL, `align="center" alt="Wakatime Stats"`)}\n`;
+        if (showTopLanguages)
+            langSection += `  ${pic(langD, langL, `align="center" alt="Top Languages"`)}\n`;
+        if (hasWakaExport)
+            langSection += `  ${pic(wakaD, wakaL, `align="center" alt="Wakatime Stats"`)}\n`;
         langSection += `</div>\n`;
     }
 
     let pinnedSection = "";
     if (showPinnedRepos && (pinnedRepo1 || pinnedRepo2)) {
         pinnedSection = `\n<h2 align="center">📌 Pinned Repositories</h2>\n\n<div width="100%" align="center">\n`;
-        if (pinnedRepo1) pinnedSection += `  ${pic(pD(pinnedRepo1), pL(pinnedRepo1), `align="center" alt="${pinnedRepo1}"`)}\n`;
-        if (pinnedRepo2) pinnedSection += `  ${pic(pD(pinnedRepo2), pL(pinnedRepo2), `align="center" alt="${pinnedRepo2}"`)}\n`;
+        if (pinnedRepo1)
+            pinnedSection += `  ${pic(pD(pinnedRepo1), pL(pinnedRepo1), `align="center" alt="${pinnedRepo1}"`)}\n`;
+        if (pinnedRepo2)
+            pinnedSection += `  ${pic(pD(pinnedRepo2), pL(pinnedRepo2), `align="center" alt="${pinnedRepo2}"`)}\n`;
         pinnedSection += `</div>\n`;
     }
 
@@ -88,7 +123,8 @@ export function generateREADME(data: ReadmeData): string {
         for (let i = 0; i < skills.length; i += SKILLS_PER_ROW)
             chunks.push(skills.slice(i, i + SKILLS_PER_ROW));
         const rows = chunks.map(
-            (c) => `    <img loading="lazy" src="https://go-skill-icons.vercel.app/api/icons?i=${c.join(",")}" alt="Tech Stack" />`,
+            (c) =>
+                `    <img loading="lazy" src="https://go-skill-icons.vercel.app/api/icons?i=${c.join(",")}" alt="Tech Stack" />`,
         );
         techSection = `\n<h2 align="center">🛠️ Tech Stack</h2>\n\n<div align="center">\n  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n</div>\n`;
     }
@@ -96,15 +132,16 @@ export function generateREADME(data: ReadmeData): string {
     // Footer badges — profile views counter; snake full-width below
     const badgeParts: string[] = [];
     if (showProfileViews)
-        badgeParts.push(`<img height="20" src="https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat" alt="Profile Views" />`);
+        badgeParts.push(
+            `<img height="20" src="https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat" alt="Profile Views" />`,
+        );
     const footerParts: string[] = [];
-    if (badgeParts.length > 0)
-        footerParts.push(`  ${badgeParts.join(" ")}`);
-    if (showSnake)
-        footerParts.push(`  ${pic(snkD, snkL, `width="100%" alt="github-snake"`)}`);
-    const footerSection = footerParts.length > 0
-        ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
-        : "";
+    if (badgeParts.length > 0) footerParts.push(`  ${badgeParts.join(" ")}`);
+    if (showSnake) footerParts.push(`  ${pic(snkD, snkL, `width="100%" alt="github-snake"`)}`);
+    const footerSection =
+        footerParts.length > 0
+            ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
+            : "";
 
     return `# Hi👋, I'm [${displayName}](${portfolio})
 ${tagline ? `\n<h3>${tagline}</h3>\n` : ""}
@@ -119,13 +156,33 @@ export default generateREADME;
 // ── Preview-only variant: always shows the full README with placeholder SVGs ──
 export function generatePreviewREADME(data: ReadmeData, formStage: number): string {
     const {
-        username, name, tagline, location, portfolioUrl, email, linkedinUrl,
-        jobTitle, company, companyUrl, workingOn, expertise,
-        degree, institution, institutionUrl,
-        pinnedRepo1, pinnedRepo2, skills,
-        showGithubStats, showStreakStats, showTopLanguages,
-        showWakatimeStats, wakatimeUsername,
-        showTrophies, showSnake, showProfileViews, showPinnedRepos,
+        username,
+        name,
+        tagline,
+        location,
+        portfolioUrl,
+        email,
+        linkedinUrl,
+        jobTitle,
+        company,
+        companyUrl,
+        workingOn,
+        expertise,
+        degree,
+        institution,
+        institutionUrl,
+        pinnedRepo1,
+        pinnedRepo2,
+        skills,
+        showGithubStats,
+        showStreakStats,
+        showTopLanguages,
+        showWakatimeStats,
+        wakatimeUsername,
+        showTrophies,
+        showSnake,
+        showProfileViews,
+        showPinnedRepos,
     } = data;
 
     // Real stats only unlock when the user reaches Stage 5 (GitHub Stats & Extras)
@@ -174,7 +231,8 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     const strkReal = `https://streak-stats.demolab.com/?user=${user}&theme=radical&hide_border=true`;
     const langReal = `${gh}/top-langs/?username=${user}&layout=compact&theme=radical&hide_border=true&langs_count=14&size_weight=0.5&count_weight=0.5`;
     const wakaReal = `${gh}/wakatime?username=${waka}&layout=compact&theme=radical&hide_border=true&langs_count=14&hide=other`;
-    const pinnReal = (r: string) => `${gh}/pin/?username=${user}&repo=${r}&layout=compact&theme=radical&hide_border=true&show_owner=true&description_lines_count=2`;
+    const pinnReal = (r: string) =>
+        `${gh}/pin/?username=${user}&repo=${r}&layout=compact&theme=radical&hide_border=true&show_owner=true&description_lines_count=2`;
     const trphReal = `https://github-profile-trophy-ranit.vercel.app/?username=${user}&theme=radical&no-frame=true&no-bg=false&margin-w=4&row=1`;
 
     // GitHub Stats — heading grayed until stage 5
@@ -225,7 +283,8 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         for (let i = 0; i < skills.length; i += SKILLS_PER_ROW)
             chunks.push(skills.slice(i, i + SKILLS_PER_ROW));
         const rows = chunks.map(
-            (c) => `    <img loading="lazy" src="https://go-skill-icons.vercel.app/api/icons?i=${c.join(",")}" alt="Tech Stack" />`,
+            (c) =>
+                `    <img loading="lazy" src="https://go-skill-icons.vercel.app/api/icons?i=${c.join(",")}" alt="Tech Stack" />`,
         );
         techSection += `  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n`;
     } else {
@@ -236,19 +295,29 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     // Footer badges — profile views counter; snake full-width below
     const badgeParts: string[] = [];
     if (showProfileViews)
-        badgeParts.push(img(hasUser, `https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat`, "/README/variant-1/general/profile-views.svg", `height="20" alt="Profile Views"`));
+        badgeParts.push(
+            img(
+                hasUser,
+                `https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat`,
+                "/README/variant-1/general/profile-views.svg",
+                `height="20" alt="Profile Views"`,
+            ),
+        );
     const footerParts: string[] = [];
-    if (badgeParts.length > 0)
-        footerParts.push(`  ${badgeParts.join(" ")}`);
+    if (badgeParts.length > 0) footerParts.push(`  ${badgeParts.join(" ")}`);
     if (showSnake)
-        footerParts.push(`  ${img(hasUser, `https://raw.githubusercontent.com/${user}/${user}/output/github-contribution-grid-snake-dark.svg`, "/README/variant-1/dark/snake.svg", `width="100%" alt="github-snake"`)}`);
-    const footerSection = footerParts.length > 0
-        ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
-        : "";
+        footerParts.push(
+            `  ${img(hasUser, `https://raw.githubusercontent.com/${user}/${user}/output/github-contribution-grid-snake-dark.svg`, "/README/variant-1/dark/snake.svg", `width="100%" alt="github-snake"`)}`,
+        );
+    const footerSection =
+        footerParts.length > 0
+            ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
+            : "";
 
-    const nameDisplay = (name || username)
-        ? `[${displayName}](${portfolio})`
-        : `<span style="${plTxt}">Your Name</span>`;
+    const nameDisplay =
+        name || username
+            ? `[${displayName}](${portfolio})`
+            : `<span style="${plTxt}">Your Name</span>`;
     const taglineDisplay = tagline
         ? `\n<h3>${tagline}</h3>\n`
         : `\n<h3 style="${plTxt}">Your tagline goes here</h3>\n`;

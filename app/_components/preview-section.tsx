@@ -21,25 +21,29 @@ export default function PreviewSection({ markdown }: PreviewSectionProps) {
                 ),
                 // Convert deprecated align attribute → text-align CSS so centered divs work
                 div: (props) => {
-                    const { align, style, ...rest } = props as React.HTMLAttributes<HTMLDivElement> & {
-                        align?: string;
-                        node?: unknown;
-                    };
+                    const { align, style, ...rest } =
+                        props as React.HTMLAttributes<HTMLDivElement> & {
+                            align?: string;
+                            node?: unknown;
+                        };
                     return (
                         <div
                             {...rest}
                             style={{
                                 ...(style as React.CSSProperties),
-                                ...(align ? { textAlign: align as React.CSSProperties["textAlign"] } : {}),
+                                ...(align
+                                    ? { textAlign: align as React.CSSProperties["textAlign"] }
+                                    : {}),
                             }}
                         />
                     );
                 },
                 // Make images inline-block so stat cards sit side-by-side (mirrors GitHub rendering)
                 img: (props) => {
-                    const { style, ...rest } = props as React.ImgHTMLAttributes<HTMLImageElement> & {
-                        node?: unknown;
-                    };
+                    const { style, ...rest } =
+                        props as React.ImgHTMLAttributes<HTMLImageElement> & {
+                            node?: unknown;
+                        };
                     return (
                         <img
                             {...rest}

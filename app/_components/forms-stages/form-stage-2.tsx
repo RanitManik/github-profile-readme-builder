@@ -24,7 +24,9 @@ const Field = ({
     <div className="space-y-1">
         <label className="block text-sm font-semibold">
             {label}
-            {optional && <span className="text-foreground-500 ml-1 text-xs font-normal">(optional)</span>}
+            {optional && (
+                <span className="text-foreground-500 ml-1 text-xs font-normal">(optional)</span>
+            )}
         </label>
         {hint && <p className="text-foreground-500 text-xs">{hint}</p>}
         {children}
@@ -37,11 +39,15 @@ export default function FormStage2({ data, updateData }: FormStage2Props) {
             <header className="space-y-1">
                 <h2 className="text-lg font-bold">Personal Info</h2>
                 <p className="text-foreground-400 text-xs">
-                    This fills in the intro section of your README. All fields are optional — add what you&apos;d like to show.
+                    This fills in the intro section of your README. All fields are optional — add
+                    what you&apos;d like to show.
                 </p>
             </header>
 
-            <Field label="Full Name" hint={`Preview: Hi👋, I'm ${data.name || data.username || "Your Name"}`}>
+            <Field
+                label="Full Name"
+                hint={`Preview: Hi👋, I'm ${data.name || data.username || "Your Name"}`}
+            >
                 <input
                     className={inputCls}
                     type="text"
@@ -51,11 +57,7 @@ export default function FormStage2({ data, updateData }: FormStage2Props) {
                 />
             </Field>
 
-            <Field
-                label="Tagline / Title"
-                optional
-                hint='e.g. "A Full Stack Developer from India"'
-            >
+            <Field label="Tagline / Title" optional hint='e.g. "A Full Stack Developer from India"'>
                 <input
                     className={inputCls}
                     type="text"
@@ -107,4 +109,3 @@ export default function FormStage2({ data, updateData }: FormStage2Props) {
         </div>
     );
 }
-
