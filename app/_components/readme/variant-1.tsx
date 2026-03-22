@@ -142,7 +142,7 @@ export function generateREADME(data: ReadmeData): string {
     if (safeLocation) bullets.push(`- 📍 Based in **${escapeMarkdownText(safeLocation)}**.`);
 
     // Stat URLs — dark (radical theme) and light variants
-    const statD = buildUrl("https://github-readme-stats.vercel.app/api", {
+    const statD = buildUrl("https://github-readme-stats-ranit.vercel.app/api", {
         username: user,
         show_icons: "true",
         theme: "radical",
@@ -151,7 +151,7 @@ export function generateREADME(data: ReadmeData): string {
         count_private: "true",
         card_width: "495",
     });
-    const statL = buildUrl("https://github-readme-stats.vercel.app/api", {
+    const statL = buildUrl("https://github-readme-stats-ranit.vercel.app/api", {
         username: user,
         show_icons: "true",
         include_all_commits: "true",
@@ -164,7 +164,7 @@ export function generateREADME(data: ReadmeData): string {
         hide_border: "true",
     });
     const strkL = buildUrl("https://streak-stats.demolab.com", { user });
-    const langD = buildUrl("https://github-readme-stats.vercel.app/api/top-langs", {
+    const langD = buildUrl("https://github-readme-stats-ranit.vercel.app/api/top-langs", {
         username: user,
         layout: "compact",
         theme: "radical",
@@ -173,14 +173,14 @@ export function generateREADME(data: ReadmeData): string {
         size_weight: "0.5",
         count_weight: "0.5",
     });
-    const langL = buildUrl("https://github-readme-stats.vercel.app/api/top-langs", {
+    const langL = buildUrl("https://github-readme-stats-ranit.vercel.app/api/top-langs", {
         username: user,
         layout: "compact",
         langs_count: "14",
         size_weight: "0.5",
         count_weight: "0.5",
     });
-    const wakaD = buildUrl("https://github-readme-stats.vercel.app/api/wakatime", {
+    const wakaD = buildUrl("https://github-readme-stats-ranit.vercel.app/api/wakatime", {
         username: safeWakatime,
         layout: "compact",
         theme: "radical",
@@ -188,14 +188,14 @@ export function generateREADME(data: ReadmeData): string {
         langs_count: "14",
         hide: "other",
     });
-    const wakaL = buildUrl("https://github-readme-stats.vercel.app/api/wakatime", {
+    const wakaL = buildUrl("https://github-readme-stats-ranit.vercel.app/api/wakatime", {
         username: safeWakatime,
         layout: "compact",
         langs_count: "14",
         hide: "other",
     });
     const pD = (r: string) =>
-        buildUrl("https://github-readme-stats.vercel.app/api/pin", {
+        buildUrl("https://github-readme-stats-ranit.vercel.app/api/pin", {
             username: user,
             repo: r,
             layout: "compact",
@@ -205,7 +205,7 @@ export function generateREADME(data: ReadmeData): string {
             description_lines_count: "2",
         });
     const pL = (r: string) =>
-        buildUrl("https://github-readme-stats.vercel.app/api/pin", {
+        buildUrl("https://github-readme-stats-ranit.vercel.app/api/pin", {
             username: user,
             repo: r,
             layout: "compact",
@@ -396,7 +396,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     ].join("\n");
 
     // Real stat URLs — match improved params from generateREADME (dark variant for preview)
-    const statReal = buildUrl("https://github-readme-stats.vercel.app/api", {
+    const statReal = buildUrl("https://github-readme-stats-ranit.vercel.app/api", {
         username: user,
         show_icons: "true",
         theme: "radical",
@@ -410,7 +410,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         theme: "radical",
         hide_border: "true",
     });
-    const langReal = buildUrl("https://github-readme-stats.vercel.app/api/top-langs", {
+    const langReal = buildUrl("https://github-readme-stats-ranit.vercel.app/api/top-langs", {
         username: user,
         layout: "compact",
         theme: "radical",
@@ -419,7 +419,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         size_weight: "0.5",
         count_weight: "0.5",
     });
-    const wakaReal = buildUrl("https://github-readme-stats.vercel.app/api/wakatime", {
+    const wakaReal = buildUrl("https://github-readme-stats-ranit.vercel.app/api/wakatime", {
         username: waka,
         layout: "compact",
         theme: "radical",
@@ -428,7 +428,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         hide: "other",
     });
     const pinnReal = (r: string) =>
-        buildUrl("https://github-readme-stats.vercel.app/api/pin", {
+        buildUrl("https://github-readme-stats-ranit.vercel.app/api/pin", {
             username: user,
             repo: r,
             layout: "compact",
