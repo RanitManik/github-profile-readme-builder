@@ -2,6 +2,25 @@
     "name": "github-profile-readme-builder",
     "version": "0.1.0",
     "private": true,
+    "description": "A powerful and easy-to-use tool to create stunning GitHub profile READMEs with ease.",
+    "author": "Ranit Manik <ranitmanik.dev@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ranitmanik/github-profile-readme-builder.git"
+    },
+    "keywords": [
+        "github",
+        "readme",
+        "profile",
+        "builder",
+        "generator",
+        "nextjs",
+        "typescript",
+        "tailwind"
+    ],
+    "engines": {
+        "node": ">=20.x"
+    },
     "license": "MIT",
     "type": "module",
     "scripts": {
@@ -10,7 +29,17 @@
         "start": "next start",
         "lint": "eslint .",
         "format": "prettier --write --ignore-path .gitignore .",
-        "test": "vitest"
+        "test": "vitest",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        "**/*.{js,jsx,ts,tsx,mjs,cjs}": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "**/*.{json,css,md,scss}": [
+            "prettier --write"
+        ]
     },
     "dependencies": {
         "@next/third-parties": "^16.2.1",
@@ -29,6 +58,8 @@
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
+        "@commitlint/cli": "^20.5.0",
+        "@commitlint/config-conventional": "^20.5.0",
         "@eslint/eslintrc": "^3",
         "@tailwindcss/postcss": "^4.0.0",
         "@types/node": "^22",
@@ -37,6 +68,8 @@
         "eslint": "^9",
         "eslint-config-next": "15.1.6",
         "eslint-config-prettier": "^10.0.1",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.4.0",
         "postcss": "^8",
         "prettier": "^3.4.2",
         "prettier-plugin-tailwindcss": "^0.6.11",
