@@ -346,7 +346,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
     const user = safeUsername || (isShowcasePreview ? "ranitmanik" : "your-username");
 
     const safeName = normalizeText(v(name, "Ranit Manik"));
-    const safeTagline = normalizeText(v(tagline, "Building Digital Products, Brands & Experience"));
+    const safeTagline = normalizeText(tagline);
     const safeLocation = normalizeText(v(location, "West Bengal, India"));
     const safeWorkingOn = normalizeText(v(workingOn, "GitHub Profile README Builder"));
     const safeExpertise = normalizeText(v(expertise, "Full Stack Web Development"));
@@ -616,11 +616,7 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
           ? `[**${escapeMarkdownText(displayName)}**](${safePortfolioUrl})`
           : "";
 
-    const taglineDisplay = safeTagline
-        ? `\n### ${escapeMarkdownText(safeTagline)}\n`
-        : !isShowcasePreview
-          ? "\n### Your tagline goes here\n"
-          : "";
+    const taglineDisplay = safeTagline ? `\n### ${escapeMarkdownText(safeTagline)}\n` : "";
 
     let result = `# Hi👋, I'm ${nameDisplay}${taglineDisplay}\n${bulletSection}\n`;
 
