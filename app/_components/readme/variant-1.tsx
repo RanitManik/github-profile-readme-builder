@@ -280,17 +280,9 @@ export function generateREADME(data: ReadmeData): string {
     if (showBmcBadge) badgeParts.push(bmcBadge);
 
     const footerSection =
-        badgeParts.length > 0
-            ? `\n<div align="center">\n  ${badgeParts.join(" ")}\n</div>\n`
-            : "";
+        badgeParts.length > 0 ? `\n<div align="center">\n  ${badgeParts.join(" ")}\n</div>\n` : "";
 
-    const middleContent = [
-        statsSection,
-        langSection,
-        pinnedSection,
-        trophiesSection,
-        techSection,
-    ]
+    const middleContent = [statsSection, langSection, pinnedSection, trophiesSection, techSection]
         .filter(Boolean)
         .join("");
 
@@ -400,7 +392,9 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         );
 
     if (safeEmail) {
-        const linkedinSuffix = safeLinkedinUrl ? ` or connect on [**LinkedIn**](${safeLinkedinUrl})` : "";
+        const linkedinSuffix = safeLinkedinUrl
+            ? ` or connect on [**LinkedIn**](${safeLinkedinUrl})`
+            : "";
         bullets.push(
             `- 📧 Reach me via [**Email**](mailto:${encodeURIComponent(safeEmail)})${linkedinSuffix}.`,
         );
@@ -467,9 +461,23 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     let statsSection = "";
     if ((isShowcasePreview || isStageFinal) && (showGithubStats || showStreakStats)) {
-        const s1 = showGithubStats ? img(hasUser, statReal, "/README/variant-1/dark/readme-stat-1.svg", `width="400px" align="center" alt="GitHub Stats"`) : "";
-        const s2 = showStreakStats ? img(hasUser, strkReal, "/README/variant-1/dark/readme-stat-2.svg", `width="400px" align="center" alt="Streak Stats"`) : "";
-        
+        const s1 = showGithubStats
+            ? img(
+                  hasUser,
+                  statReal,
+                  "/README/variant-1/dark/readme-stat-1.svg",
+                  `width="400px" align="center" alt="GitHub Stats"`,
+              )
+            : "";
+        const s2 = showStreakStats
+            ? img(
+                  hasUser,
+                  strkReal,
+                  "/README/variant-1/dark/readme-stat-2.svg",
+                  `width="400px" align="center" alt="Streak Stats"`,
+              )
+            : "";
+
         if (s1 || s2) {
             statsSection = `\n<h2 align="center">📊 GitHub Stats</h2>\n\n<div width="100%" align="center">\n  ${[s1, s2].filter(Boolean).join("\n  ")}\n</div>\n`;
         }
@@ -477,9 +485,23 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     let langSection = "";
     if ((isShowcasePreview || isStageFinal) && (showTopLanguages || showWakatimeStats)) {
-        const l1 = showTopLanguages ? img(hasUser, langReal, "/README/variant-1/dark/readme-stat-3.svg", `align="center" alt="Top Languages"`) : "";
-        const l2 = showWakatimeStats ? img(isStageFinal && !!sanitizeUsername(wakatimeUsername), wakaReal, "/README/variant-1/dark/readme-stat-4.svg", `align="center" alt="Wakatime Stats"`) : "";
-        
+        const l1 = showTopLanguages
+            ? img(
+                  hasUser,
+                  langReal,
+                  "/README/variant-1/dark/readme-stat-3.svg",
+                  `align="center" alt="Top Languages"`,
+              )
+            : "";
+        const l2 = showWakatimeStats
+            ? img(
+                  isStageFinal && !!sanitizeUsername(wakatimeUsername),
+                  wakaReal,
+                  "/README/variant-1/dark/readme-stat-4.svg",
+                  `align="center" alt="Wakatime Stats"`,
+              )
+            : "";
+
         if (l1 || l2) {
             langSection = `\n<h2 align="center">🔥 Language & Coding Activity</h2>\n\n<div width="100%" align="center">\n  ${[l1, l2].filter(Boolean).join("\n  ")}\n</div>\n`;
         }
@@ -487,9 +509,19 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     let pinnedSection = "";
     if ((isShowcasePreview || isStageFinal) && showPinnedRepos) {
-        const p1 = img(hasUser && !!normalizeText(pinnedRepo1), pinnReal(pinnedRepo1), "/README/variant-1/dark/pinned-repo-1.svg", `align="center" alt="Pinned Repo 1"`);
-        const p2 = img(hasUser && !!normalizeText(pinnedRepo2), pinnReal(pinnedRepo2), "/README/variant-1/dark/pinned-repo-2.svg", `align="center" alt="Pinned Repo 2"`);
-        
+        const p1 = img(
+            hasUser && !!normalizeText(pinnedRepo1),
+            pinnReal(pinnedRepo1),
+            "/README/variant-1/dark/pinned-repo-1.svg",
+            `align="center" alt="Pinned Repo 1"`,
+        );
+        const p2 = img(
+            hasUser && !!normalizeText(pinnedRepo2),
+            pinnReal(pinnedRepo2),
+            "/README/variant-1/dark/pinned-repo-2.svg",
+            `align="center" alt="Pinned Repo 2"`,
+        );
+
         if (p1 || p2) {
             pinnedSection = `\n<h2 align="center">📌 Pinned Repositories</h2>\n\n<div width="100%" align="center">\n  ${[p1, p2].filter(Boolean).join("\n  ")}\n</div>\n`;
         }
@@ -497,7 +529,11 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     let trophiesSection = "";
     if ((isShowcasePreview || isStageFinal) && showTrophies) {
-        const tSrc = hasUser ? trphReal : (isShowcasePreview ? "/README/variant-1/dark/trophies.svg" : "");
+        const tSrc = hasUser
+            ? trphReal
+            : isShowcasePreview
+              ? "/README/variant-1/dark/trophies.svg"
+              : "";
         if (tSrc) {
             trophiesSection = `\n<h2 align="center">🏆 GitHub Trophies</h2>\n\n<div width="100%" align="center">\n  <a href="${safePortfolioUrl}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${tSrc}" />\n      <source media="(prefers-color-scheme: light)" srcset="${tSrc}" />\n      <img width="804px" alt="GitHub Trophies" src="${tSrc}" />\n    </picture>\n  </a>\n</div>\n`;
         }
@@ -517,23 +553,20 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
 
     const badgeParts: string[] = [];
     if ((isShowcasePreview || isStageFinal) && showProfileViews) {
-        const b = img(hasUser, `https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat`, "/README/variant-1/general/profile-views.svg", `height="20" alt="Profile Views"`);
+        const b = img(
+            hasUser,
+            `https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat`,
+            "/README/variant-1/general/profile-views.svg",
+            `height="20" alt="Profile Views"`,
+        );
         if (b) badgeParts.push(b);
     }
     if ((isShowcasePreview || isStageFinal) && showBmcBadge) badgeParts.push(bmcBadge);
 
     const footerSection =
-        badgeParts.length > 0
-            ? `\n<div align="center">\n  ${badgeParts.join(" ")}\n</div>\n`
-            : "";
+        badgeParts.length > 0 ? `\n<div align="center">\n  ${badgeParts.join(" ")}\n</div>\n` : "";
 
-    const middleContent = [
-        statsSection,
-        langSection,
-        pinnedSection,
-        trophiesSection,
-        techSection,
-    ]
+    const middleContent = [statsSection, langSection, pinnedSection, trophiesSection, techSection]
         .filter(Boolean)
         .join("");
 
