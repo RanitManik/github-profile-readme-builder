@@ -1,97 +1,122 @@
+<div align="center">
+  <img src="logo.png" alt="GitHub Profile README Builder Logo" width="120" />
+
 # GitHub Profile README Builder
 
-GitHub Profile README Builder is a guided web app for creating polished, export-ready GitHub profile `README.md` files. It combines a structured multi-step form, live preview, skill selection, and GitHub widget configuration so users can build a profile README without writing markdown by hand.
+**A powerful, guided web application to create stunning, export-ready GitHub profile READMEs in minutes.**
 
-## Highlights
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-- Guided five-step workflow for profile, work, education, skills, and widgets
-- Live markdown preview with GitHub-style rendering
-- Searchable tech stack picker powered by `go-skill-icons`
-- Support for popular GitHub profile widgets and cards
-- One-click copy and download for the generated `README.md`
+[Explore the App](https://github-profile-readme-builder.vercel.app) • [Report Bug](https://github.com/RanitManik/github-profile-readme-builder/issues) • [Request Feature](https://github.com/RanitManik/github-profile-readme-builder/issues)
 
-## Built With
+</div>
 
-- Next.js 15
-- React 19
-- TypeScript
-- Tailwind CSS 4
-- Vitest
+---
 
-## Getting Started
+## 🚀 Why This Project?
+
+Creating a great GitHub profile README often involves manually writing complex markdown, searching for badge URLs, and configuring third-party widgets. This project simplifies that entire process into a **guided 5-step workflow**.
+
+Whether you're a student, a seasoned professional, or an open-source maintainer, this tool helps you showcase your identity, work, skills, and stats with zero manual coding.
+
+## ✨ Key Features
+
+- **🎯 Guided Workflow:** A structured five-step form covering Identity, Personal Info, Work & Education, Tech Stack, and GitHub Stats.
+- **👁️ Live Preview:** See your README evolve in real-time with a GitHub-accurate markdown previewer.
+- **🛠️ Tech Stack Picker:** Search and select from hundreds of tech icons powered by `go-skill-icons`.
+- **📊 Dynamic Widgets:** Easily toggle and configure:
+    - GitHub Stats, Streaks, and Top Languages.
+    - GitHub Trophies and Profile View counters.
+    - WakaTime coding activity cards.
+    - Pinned repository previews (fetched directly via GitHub API).
+- **💾 Export-Ready:** One-click to copy the markdown or download the `.md` file.
+- **⚡ Performance-First:** Built with Next.js 15 and React 19 for a fast, snappy experience.
+
+## 🛠️ Tech Stack
+
+- **Core:** Next.js 15 (App Router), React 19, TypeScript
+- **Styling:** Tailwind CSS 4, Lucide React (Icons)
+- **Markdown:** React Markdown, Remark GFM, Rehype Highlight
+- **State & Logic:** React Hooks (Memo, State, Effect)
+- **Testing:** Vitest
+- **Linting/Formatting:** ESLint, Prettier, Husky, Lint-Staged
+
+## 📦 Project Structure
+
+```text
+├── app/
+│   ├── _components/        # Core business logic & builder flow
+│   │   ├── forms-stages/   # The 5-step guided form components
+│   │   ├── readme/         # Markdown generation & variant logic
+│   │   └── ...             # Layout components (Header, Navigation, etc.)
+│   ├── layout.tsx          # Global layout & metadata
+│   └── page.tsx            # Main application entry point
+├── components/
+│   └── ui/                 # Atomic, reusable UI primitives (Inputs, Toggles, etc.)
+├── lib/
+│   ├── types.ts            # Centralized TypeScript interfaces
+│   ├── skills-data.ts      # Logic for skill icon processing
+│   └── utils.ts            # Shared helper functions
+├── public/                 # Static assets & README preview images
+└── styles/                 # Global CSS & Tailwind configuration
+```
+
+## 👨‍💻 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ recommended
-- npm
+- **Node.js 20+** (LTS recommended)
+- **npm** or **pnpm**
 
-### Installation
+### Installation & Run
 
-```bash
-npm install
-```
+1. **Clone the repository:**
 
-### Run Locally
+    ```bash
+    git clone https://github.com/RanitManik/github-profile-readme-builder.git
+    cd github-profile-readme-builder
+    ```
 
-```bash
-npm run dev
-```
+2. **Install dependencies:**
 
-Open `http://localhost:3000` in your browser.
+    ```bash
+    npm install
+    ```
 
-## Available Scripts
+3. **Run the development server:**
 
-```bash
-npm run dev
-npm run build
-npm run start
-npm run lint
-npm run test -- --run
-npm run format
-```
+    ```bash
+    npm run dev
+    ```
 
-## How It Works
+4. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-1. Fill out the staged form with your profile details.
-2. Choose skills, widgets, and profile sections.
-3. Preview the generated markdown in real time.
-4. Copy or download the final `README.md`.
+## 🧪 Quality Assurance
 
-## Project Structure
+We maintain high standards for code quality and reliability:
 
-```text
-app/
-  _components/        Core builder flow, preview, and README generation
-components/ui/        Shared UI primitives
-lib/                  Shared types and supporting data
-public/README/        Preview assets
-styles/               Global styles
-```
+- **Linting:** `npm run lint`
+- **Formatting:** `npm run format`
+- **Testing:** `npm run test`
+- **Build Check:** `npm run build`
 
-## Production Notes
+## 🤝 Contributing
 
-- The application is fully client-side and does not require a database or authentication.
-- Repository suggestions are fetched from the public GitHub REST API in the browser.
-- Generated README widgets depend on third-party providers such as GitHub stats, streaks, trophies, and skill icon services.
-- If those services are unavailable or rate-limited, generated widget images may not render correctly even when the app itself is working as expected.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## Quality Checks
+Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for our contribution guidelines and [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md) for our community standards.
 
-Run the following before publishing changes:
+## 📄 License
 
-```bash
-npm run lint
-npm run test -- --run
-npm run build
-```
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Contributing
+---
 
-Contributions are welcome. Please review the project guidelines before opening a pull request:
-
-- [Contributing Guide](./.github/CONTRIBUTING.md)
-- [Code of Conduct](./.github/CODE_OF_CONDUCT.md)
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+<div align="center">
+  Built with ❤️ by <a href="https://github.com/RanitManik">Ranit Manik</a>
+</div>
