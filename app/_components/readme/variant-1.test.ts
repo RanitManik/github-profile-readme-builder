@@ -118,6 +118,7 @@ describe("generatePreviewREADME", () => {
 
         expect(markdown).toContain("[**&lt;b&gt;Ada&lt;/b&gt;**](https://github.com/octocat)");
         expect(markdown).not.toContain("javascript:");
-        expect(markdown).toContain("Your tagline goes here");
+        expect(markdown).not.toContain("Your tagline goes here");
+        expect(markdown).not.toContain("###");
     });
 });
