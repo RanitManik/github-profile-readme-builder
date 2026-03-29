@@ -52,7 +52,9 @@ const buildSkillIconsPicture = (skills: string[], attrs = `loading="lazy" alt="T
     `<picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${buildSkillIconsUrl(skills, "dark")}" />\n      <source media="(prefers-color-scheme: light)" srcset="${buildSkillIconsUrl(skills, "light")}" />\n      <img ${attrs} src="${buildSkillIconsUrl(skills, "dark")}" />\n    </picture>`;
 
 const linkText = (value: string, url?: string) =>
-    url ? `[**${escapeMarkdownText(value)}**](${url})` : `**${escapeMarkdownText(value)}**`;
+    url && url !== "#" && url !== ""
+        ? `[**${escapeMarkdownText(value)}**](${url})`
+        : `**${escapeMarkdownText(value)}**`;
 
 export function generateREADME(data: ReadmeData): string {
     const {
@@ -109,7 +111,6 @@ export function generateREADME(data: ReadmeData): string {
     const displayName = safeName || safeUsername || "Your Name";
     const bmcBadge = `<a href="https://buymeacoffee.com/ranitmanik"><img height="20" alt="Buy Me a Coffee" src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee" /></a>`;
 
-    // Generates a dark/light <picture> element for theme-aware images
     const pic = (d: string, l: string, attrs: string) =>
         `<picture>\n    <source media="(prefers-color-scheme: dark)" srcset="${d}" />\n    <source media="(prefers-color-scheme: light)" srcset="${l}" />\n    <img ${attrs} src="${d}" />\n  </picture>`;
 
@@ -141,7 +142,6 @@ export function generateREADME(data: ReadmeData): string {
         bullets.push(`- 💼 Connect with me on [**LinkedIn**](${safeLinkedinUrl}).`);
     if (safeLocation) bullets.push(`- 📍 Based in **${escapeMarkdownText(safeLocation)}**.`);
 
-    // Stat URLs — dark (radical theme) and light variants
     const statD = buildUrl("https://github-readme-stats-ranit.vercel.app/api", {
         username: user,
         show_icons: "true",
@@ -226,6 +226,7 @@ export function generateREADME(data: ReadmeData): string {
         "margin-w": "4",
         row: "1",
     });
+
     let statsSection = "";
     if (showGithubStats || showStreakStats) {
         statsSection = `\n<h2 align="center">📊 GitHub Stats</h2>\n\n<div width="100%" align="center">\n`;
@@ -236,7 +237,6 @@ export function generateREADME(data: ReadmeData): string {
         statsSection += `</div>\n`;
     }
 
-    // WakaTime card only renders in the final README when username is explicitly set
     const hasWakaExport = showWakatimeStats && !!sanitizeUsername(wakatimeUsername);
     let langSection = "";
     if (showTopLanguages || hasWakaExport) {
@@ -272,31 +272,35 @@ export function generateREADME(data: ReadmeData): string {
         techSection = `\n<h2 align="center">🛠️ Tech Stack</h2>\n\n<div align="center">\n  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n</div>\n`;
     }
 
-    // Footer badges
     const badgeParts: string[] = [];
     if (showProfileViews)
         badgeParts.push(
             `<img height="20" src="https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat" alt="Profile Views" />`,
         );
     if (showBmcBadge) badgeParts.push(bmcBadge);
-    const footerParts: string[] = [];
-    if (badgeParts.length > 0) footerParts.push(`  ${badgeParts.join(" ")}`);
+
     const footerSection =
-        footerParts.length > 0
-            ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
-            : "";
+        badgeParts.length > 0 ? `\n<div align="center">\n  ${badgeParts.join(" ")}\n</div>\n` : "";
 
-    return `# Hi👋, I'm [${escapeMarkdownText(displayName)}](${safePortfolioUrl})
+    const middleContent = [statsSection, langSection, pinnedSection, trophiesSection, techSection]
+        .filter(Boolean)
+        .join("");
+
+    let result = `# Hi👋, I'm [${escapeMarkdownText(displayName)}](${safePortfolioUrl})
 ${safeTagline ? `\n### ${escapeMarkdownText(safeTagline)}\n` : ""}
-${bullets.length > 0 ? bullets.join("\n") : "<!-- Fill in the form on the left to personalise your README →"}
+${bullets.length > 0 ? bullets.join("\n") : "<!-- Fill in the form on the left to personalise your README →"}\n`;
 
-<hr>
-${statsSection}${langSection}${pinnedSection}${trophiesSection}${techSection}${footerSection}`;
+    if (middleContent || footerSection) {
+        result += `\n<hr>\n${middleContent}`;
+        if (footerSection) {
+            if (middleContent) result += `\n<hr>\n`;
+            result += footerSection;
+        }
+    }
+
+    return result;
 }
 
-export default generateREADME;
-
-// ── Preview-only variant: always shows the full README with placeholder SVGs ──
 export function generatePreviewREADME(data: ReadmeData, formStage: number): string {
     const {
         username,
@@ -328,74 +332,83 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         showPinnedRepos,
     } = data;
 
-    // Stage 1 acts as a showcase preview, so placeholders should render at full strength there.
     const isShowcasePreview = formStage === 1;
+    const isStageFinal = formStage >= 5;
+    const isStageTech = formStage >= 4;
 
-    // Real stats only unlock when the user reaches Stage 5 (GitHub Stats & Extras)
-    const showRealStats = formStage >= 5;
+    const v = (val: string, showcaseVal: string) => {
+        if (isShowcasePreview) return val || showcaseVal;
+        return val;
+    };
+
     const safeUsername = sanitizeUsername(username);
-    const hasUser = showRealStats && !!safeUsername;
-    const user = safeUsername || "your-username";
-    const safeName = normalizeText(name);
-    const safeTagline = normalizeText(tagline);
-    const safeLocation = normalizeText(location);
-    const safeWorkingOn = normalizeText(workingOn);
-    const safeExpertise = normalizeText(expertise);
-    const safeDegree = normalizeText(degree);
-    const safeCompany = normalizeText(company);
-    const safeInstitution = normalizeText(institution);
-    const safePinnedRepo1 = normalizeText(pinnedRepo1);
-    const safePinnedRepo2 = normalizeText(pinnedRepo2);
-    const safeCompanyUrl = sanitizeWebUrl(companyUrl, "#");
-    const safeInstitutionUrl = sanitizeWebUrl(institutionUrl, "#");
+    const hasUser = isStageFinal && !!safeUsername;
+    const user = safeUsername || (isShowcasePreview ? "ranitmanik" : "your-username");
+
+    const safeName = normalizeText(v(name, "Ranit Manik"));
+    const safeTagline = normalizeText(v(tagline, "Building Digital Products, Brands & Experience"));
+    const safeLocation = normalizeText(v(location, "West Bengal, India"));
+    const safeWorkingOn = normalizeText(v(workingOn, "GitHub Profile README Builder"));
+    const safeExpertise = normalizeText(v(expertise, "Full Stack Web Development"));
+    const safeDegree = normalizeText(v(degree, "B.Tech in Computer Science"));
+    const safeCompany = normalizeText(v(company, "Freelance"));
+    const safeInstitution = normalizeText(v(institution, "MAKAUT"));
+    const safePinnedRepo1 = normalizeText(v(pinnedRepo1, "github-profile-readme-builder"));
+    const safePinnedRepo2 = normalizeText(v(pinnedRepo2, "nextjs-portfolio"));
+
+    const safeCompanyUrl = sanitizeWebUrl(v(companyUrl, ""), "");
+    const safeInstitutionUrl = sanitizeWebUrl(v(institutionUrl, ""), "");
     const safePortfolioUrl = sanitizeWebUrl(
-        portfolioUrl,
+        v(portfolioUrl, `https://github.com/${encodeURIComponent(user)}`),
         `https://github.com/${encodeURIComponent(user)}`,
     );
-    const safeLinkedinUrl = sanitizeWebUrl(linkedinUrl, "#");
-    const safeEmail = sanitizeEmail(email);
+    const safeLinkedinUrl = sanitizeWebUrl(v(linkedinUrl, ""), "");
+    const safeEmail = sanitizeEmail(v(email, isShowcasePreview ? "hello@ranit.dev" : ""));
     const displayName = safeName || safeUsername || "Your Name";
-    const waka = sanitizeUsername(wakatimeUsername) || user;
+    const waka = sanitizeUsername(v(wakatimeUsername, user)) || user;
     const bmcBadge = `<a href="https://buymeacoffee.com/ranitmanik"><img height="20" alt="Buy Me a Coffee" src="https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee" /></a>`;
-    // hasWaka: shows real wakatime stats only when username is set AND stage 5 is reached
-    const hasWaka = showRealStats && !!sanitizeUsername(wakatimeUsername);
 
-    const plTxt = `color:#8b949e;font-style:italic;`;
-    const plImg = isShowcasePreview ? "" : `filter:grayscale(1);opacity:0.4;`;
+    const img = (isReal: boolean, realSrc: string, localSrc: string, attrs = "") => {
+        if (isReal) return `<img ${attrs} src="${realSrc}" />`;
+        if (isShowcasePreview) return `<img ${attrs} src="${localSrc}" />`;
+        return "";
+    };
 
-    // Show val as-is (bold), or a greyed-out italic placeholder
-    const t = (val: string, fb: string) =>
-        normalizeText(val)
-            ? `**${escapeMarkdownText(val)}**`
-            : `<span style="${plTxt}">${escapeHtmlAttribute(fb)}</span>`;
+    const bullets: string[] = [];
+    if (safeWorkingOn)
+        bullets.push(`- 🔭 Currently working on **${escapeMarkdownText(safeWorkingOn)}**.`);
+    if (safeCompany)
+        bullets.push(
+            `- 👨‍💼 ${escapeMarkdownText(jobTitle || "Developer")} at ${linkText(safeCompany, safeCompanyUrl)}.`,
+        );
+    if (safeInstitution)
+        bullets.push(
+            `- 🏫 Pursuing a ${escapeMarkdownText(safeDegree || "degree")} at ${linkText(safeInstitution, safeInstitutionUrl)}.`,
+        );
+    if (safeExpertise) bullets.push(`- 📚 Proficient in **${escapeMarkdownText(safeExpertise)}**.`);
+    if (isShowcasePreview || (portfolioUrl && sanitizeWebUrl(portfolioUrl)))
+        bullets.push(
+            `- 🌐 Visit my [**Portfolio**](${safePortfolioUrl}) to explore projects and achievements.`,
+        );
 
-    // Returns a real img or a local SVG placeholder with grayscale
-    const img = (isReal: boolean, realSrc: string, localSrc: string, attrs = "") =>
-        isReal
-            ? `<img ${attrs} src="${realSrc}" />`
-            : `<img ${attrs} src="${localSrc}" style="${plImg}" />`;
+    if (safeEmail) {
+        const linkedinSuffix = safeLinkedinUrl
+            ? ` or connect on [**LinkedIn**](${safeLinkedinUrl})`
+            : "";
+        bullets.push(
+            `- 📧 Reach me via [**Email**](mailto:${encodeURIComponent(safeEmail)})${linkedinSuffix}.`,
+        );
+    } else if (safeLinkedinUrl) {
+        bullets.push(`- 💼 Connect with me on [**LinkedIn**](${safeLinkedinUrl}).`);
+    }
 
-    // Section heading helper: grays out the title when the user hasn't reached minStage yet
-    const h2 = (text: string, minStage: number) =>
-        isShowcasePreview || formStage >= minStage
-            ? `\n<h2 align="center">${text}</h2>`
-            : `\n<h2 align="center" style="color:#8b949e;opacity:0.45;">${text}</h2>`;
+    if (safeLocation) bullets.push(`- 📍 Based in **${escapeMarkdownText(safeLocation)}**.`);
 
-    // All 7 bullets — always shown, placeholders when fields are empty
-    const contactTarget = safeEmail ? `mailto:${encodeURIComponent(safeEmail)}` : "#";
-    const linkedinText =
-        safeLinkedinUrl !== "#" ? ` or connect on [**LinkedIn**](${safeLinkedinUrl})` : "";
-    const bullets = [
-        `- 🔭 Currently working on ${t(safeWorkingOn, "your current project")}.`,
-        `- 👨‍💼 ${escapeMarkdownText(jobTitle || "Developer")} at [${t(safeCompany, "Your Company")}](${safeCompanyUrl}).`,
-        `- 🏫 Pursuing a ${escapeMarkdownText(safeDegree || "degree")} at [${t(safeInstitution, "Your Institution")}](${safeInstitutionUrl}).`,
-        `- 📚 Proficient in ${t(safeExpertise, "your expertise")}.`,
-        `- 🌐 Visit my [**Portfolio**](${safePortfolioUrl}) to explore projects.`,
-        `- 📧 Reach me via [**Email**](${contactTarget})${linkedinText}.`,
-        `- 📍 Based in ${t(safeLocation, "Your Location")}.`,
-    ].join("\n");
+    const bulletSection =
+        bullets.length > 0
+            ? bullets.join("\n")
+            : "<!-- Fill in the form on the left to personalise your README →";
 
-    // Real stat URLs — match improved params from generateREADME (dark variant for preview)
     const statReal = buildUrl("https://github-readme-stats-ranit.vercel.app/api", {
         username: user,
         show_icons: "true",
@@ -446,90 +459,136 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         row: "1",
     });
 
-    // GitHub Stats — heading grayed until stage 5
     let statsSection = "";
-    if (showGithubStats || showStreakStats) {
-        statsSection = `${h2("📊 GitHub Stats", 5)}\n\n<div width="100%" align="center">\n`;
-        if (showGithubStats)
-            statsSection += `  ${img(hasUser, statReal, "/README/variant-1/dark/readme-stat-1.svg", `width="400px" align="center" alt="GitHub Stats"`)}\n`;
-        if (showStreakStats)
-            statsSection += `  ${img(hasUser, strkReal, "/README/variant-1/dark/readme-stat-2.svg", `width="400px" align="center" alt="Streak Stats"`)}\n`;
-        statsSection += `</div>\n`;
-    }
-
-    // Language & Coding Activity — show only if at least one card is enabled
-    // Wakatime card shows when toggle is ON (default true); placeholder until username set + stage 5
-    let langSection = "";
-    if (showTopLanguages || showWakatimeStats) {
-        langSection = `${h2("🔥 Language & Coding Activity", 5)}\n\n<div width="100%" align="center">\n`;
-        if (showTopLanguages)
-            langSection += `  ${img(hasUser, langReal, "/README/variant-1/dark/readme-stat-3.svg", `align="center" alt="Top Languages"`)}\n`;
-        if (showWakatimeStats)
-            langSection += `  ${img(hasWaka, wakaReal, "/README/variant-1/dark/readme-stat-4.svg", `align="center" alt="Wakatime Stats"`)}\n`;
-        langSection += `</div>\n`;
-    }
-
-    // Pinned Repos — heading grayed until stage 5
-    let pinnedSection = "";
-    if (showPinnedRepos) {
-        pinnedSection = `${h2("📌 Pinned Repositories", 5)}\n\n<div width="100%" align="center">\n`;
-        pinnedSection += `  ${img(hasUser && !!safePinnedRepo1, pinnReal(safePinnedRepo1), "/README/variant-1/dark/pinned-repo-1.svg", `align="center" alt="Pinned Repo 1"`)}\n`;
-        pinnedSection += `  ${img(hasUser && !!safePinnedRepo2, pinnReal(safePinnedRepo2), "/README/variant-1/dark/pinned-repo-2.svg", `align="center" alt="Pinned Repo 2"`)}\n`;
-        pinnedSection += `</div>\n`;
-    }
-
-    // Trophies — heading grayed until stage 5
-    const trphPlaceholder = "/README/variant-1/dark/trophies.svg";
-    const trphSrc = hasUser ? trphReal : trphPlaceholder;
-    const trphStyle = hasUser ? "" : ` style="${plImg}"`;
-    const trophiesSection = showTrophies
-        ? `${h2("🏆 GitHub Trophies", 5)}\n\n<div width="100%" align="center">\n  <a href="${safePortfolioUrl}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${trphSrc}" />\n      <source media="(prefers-color-scheme: light)" srcset="${trphSrc}" />\n      <img width="804px" alt="GitHub Trophies" src="${trphSrc}"${trphStyle} />\n    </picture>\n  </a>\n</div>\n`
-        : "";
-
-    // Tech Stack — heading grayed until stage 4; <br /> between rows only (not after last); wrapped in <a>
-    const SKILLS_PER_ROW = 13;
-    let techSection = `${h2("🛠️ Tech Stack", 4)}\n\n<div align="center">\n`;
-    if (skills.length > 0) {
-        const chunks: string[][] = [];
-        for (let i = 0; i < skills.length; i += SKILLS_PER_ROW)
-            chunks.push(skills.slice(i, i + SKILLS_PER_ROW));
-        const rows = chunks.map((c) => `    ${buildSkillIconsPicture(c)}`);
-        techSection += `  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n`;
-    } else {
-        techSection += `  <a href="https://go-skill-icons.vercel.app">\n    <img src="/README/variant-1/general/icons-row-1.svg" style="${plImg}" />\n    <br />\n    <img src="/README/variant-1/general/icons-row-2.svg" style="${plImg}" />\n    <br />\n    <img src="/README/variant-1/general/icons-row-3.svg" style="${plImg}" />\n  </a>\n`;
-    }
-    techSection += `</div>\n`;
-
-    // Footer badges
-    const badgeParts: string[] = [];
-    if (showProfileViews)
-        badgeParts.push(
-            img(
-                hasUser,
-                `https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat`,
-                "/README/variant-1/general/profile-views.svg",
-                `height="20" alt="Profile Views"`,
-            ),
-        );
-    if (showBmcBadge) badgeParts.push(bmcBadge);
-    const footerParts: string[] = [];
-    if (badgeParts.length > 0) footerParts.push(`  ${badgeParts.join(" ")}`);
-    const footerSection =
-        footerParts.length > 0
-            ? `\n<hr>\n\n<div align="center">\n${footerParts.join("\n")}\n</div>\n`
+    if ((isShowcasePreview || isStageFinal) && (showGithubStats || showStreakStats)) {
+        const s1 = showGithubStats
+            ? img(
+                  hasUser,
+                  statReal,
+                  "/README/variant-1/dark/readme-stat-1.svg",
+                  `width="400px" align="center" alt="GitHub Stats"`,
+              )
+            : "";
+        const s2 = showStreakStats
+            ? img(
+                  hasUser,
+                  strkReal,
+                  "/README/variant-1/dark/readme-stat-2.svg",
+                  `width="400px" align="center" alt="Streak Stats"`,
+              )
             : "";
 
-    const nameDisplay =
-        safeName || safeUsername
-            ? `[${escapeMarkdownText(displayName)}](${safePortfolioUrl})`
-            : `<span style="${plTxt}">Your Name</span>`;
-    const taglineDisplay = safeTagline
-        ? `\n### ${escapeMarkdownText(safeTagline)}\n`
-        : `\n<h3 style="${plTxt}">Your tagline goes here</h3>\n`;
+        if (s1 || s2) {
+            statsSection = `\n<h2 align="center">📊 GitHub Stats</h2>\n\n<div width="100%" align="center">\n  ${[s1, s2].filter(Boolean).join("\n  ")}\n</div>\n`;
+        }
+    }
 
-    return `# Hi👋, I'm ${nameDisplay}${taglineDisplay}
-${bullets}
+    let langSection = "";
+    if ((isShowcasePreview || isStageFinal) && (showTopLanguages || showWakatimeStats)) {
+        const l1 = showTopLanguages
+            ? img(
+                  hasUser,
+                  langReal,
+                  "/README/variant-1/dark/readme-stat-3.svg",
+                  `align="center" alt="Top Languages"`,
+              )
+            : "";
+        const l2 = showWakatimeStats
+            ? img(
+                  isStageFinal && !!sanitizeUsername(wakatimeUsername),
+                  wakaReal,
+                  "/README/variant-1/dark/readme-stat-4.svg",
+                  `align="center" alt="Wakatime Stats"`,
+              )
+            : "";
 
-<hr>
-${statsSection}${langSection}${pinnedSection}${trophiesSection}${techSection}${footerSection}`;
+        if (l1 || l2) {
+            langSection = `\n<h2 align="center">🔥 Language & Coding Activity</h2>\n\n<div width="100%" align="center">\n  ${[l1, l2].filter(Boolean).join("\n  ")}\n</div>\n`;
+        }
+    }
+
+    let pinnedSection = "";
+    if ((isShowcasePreview || isStageFinal) && showPinnedRepos) {
+        const p1 = img(
+            hasUser && !!normalizeText(pinnedRepo1),
+            pinnReal(pinnedRepo1),
+            "/README/variant-1/dark/pinned-repo-1.svg",
+            `align="center" alt="Pinned Repo 1"`,
+        );
+        const p2 = img(
+            hasUser && !!normalizeText(pinnedRepo2),
+            pinnReal(pinnedRepo2),
+            "/README/variant-1/dark/pinned-repo-2.svg",
+            `align="center" alt="Pinned Repo 2"`,
+        );
+
+        if (p1 || p2) {
+            pinnedSection = `\n<h2 align="center">📌 Pinned Repositories</h2>\n\n<div width="100%" align="center">\n  ${[p1, p2].filter(Boolean).join("\n  ")}\n</div>\n`;
+        }
+    }
+
+    let trophiesSection = "";
+    if ((isShowcasePreview || isStageFinal) && showTrophies) {
+        const tSrc = hasUser
+            ? trphReal
+            : isShowcasePreview
+              ? "/README/variant-1/dark/trophies.svg"
+              : "";
+        if (tSrc) {
+            trophiesSection = `\n<h2 align="center">🏆 GitHub Trophies</h2>\n\n<div width="100%" align="center">\n  <a href="${safePortfolioUrl}">\n    <picture>\n      <source media="(prefers-color-scheme: dark)" srcset="${tSrc}" />\n      <source media="(prefers-color-scheme: light)" srcset="${tSrc}" />\n      <img width="804px" alt="GitHub Trophies" src="${tSrc}" />\n    </picture>\n  </a>\n</div>\n`;
+        }
+    }
+
+    const showcaseSkills = ["react", "nextjs", "typescript", "tailwind", "nodejs", "git"];
+    const activeSkills = skills.length > 0 ? skills : isShowcasePreview ? showcaseSkills : [];
+    const SKILLS_PER_ROW = 13;
+    let techSection = "";
+    if ((isShowcasePreview || isStageTech) && activeSkills.length > 0) {
+        const chunks: string[][] = [];
+        for (let i = 0; i < activeSkills.length; i += SKILLS_PER_ROW)
+            chunks.push(activeSkills.slice(i, i + SKILLS_PER_ROW));
+        const rows = chunks.map((c) => `    ${buildSkillIconsPicture(c)}`);
+        techSection = `\n<h2 align="center">🛠️ Tech Stack</h2>\n\n<div align="center">\n  <a href="https://go-skill-icons.vercel.app">\n${rows.join("\n    <br />\n")}\n    <br />\n  </a>\n</div>\n`;
+    }
+
+    const badgeParts: string[] = [];
+    if ((isShowcasePreview || isStageFinal) && showProfileViews) {
+        const b = img(
+            hasUser,
+            `https://komarev.com/ghpvc/?username=${user}&color=blue&style=flat`,
+            "/README/variant-1/general/profile-views.svg",
+            `height="20" alt="Profile Views"`,
+        );
+        if (b) badgeParts.push(b);
+    }
+    if ((isShowcasePreview || isStageFinal) && showBmcBadge) badgeParts.push(bmcBadge);
+
+    const footerSection =
+        badgeParts.length > 0 ? `\n<div align="center">\n  ${badgeParts.join(" ")}\n</div>\n` : "";
+
+    const middleContent = [statsSection, langSection, pinnedSection, trophiesSection, techSection]
+        .filter(Boolean)
+        .join("");
+
+    const nameDisplay = isShowcasePreview
+        ? `[**${escapeMarkdownText(safeName)}**](${safePortfolioUrl})`
+        : safeName || safeUsername
+          ? `[**${escapeMarkdownText(displayName)}**](${safePortfolioUrl})`
+          : "";
+
+    const taglineDisplay = safeTagline ? `\n### ${escapeMarkdownText(safeTagline)}\n` : "";
+
+    let result = `# Hi👋, I'm ${nameDisplay}${taglineDisplay}\n${bulletSection}\n`;
+
+    if (middleContent || footerSection) {
+        result += `\n<hr>\n${middleContent}`;
+        if (footerSection) {
+            if (middleContent) result += `\n<hr>\n`;
+            result += footerSection;
+        }
+    }
+
+    return result;
 }
+
+export default generateREADME;
