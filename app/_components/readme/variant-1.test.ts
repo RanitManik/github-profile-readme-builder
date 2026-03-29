@@ -84,7 +84,7 @@ describe("generatePreviewREADME", () => {
         expect(markdown).not.toContain("filter:grayscale(1);opacity:0.4;");
         expect(markdown).toContain('<h2 align="center">📊 GitHub Stats</h2>');
         expect(markdown).toContain(
-            '<img width="400px" align="center" alt="GitHub Stats" src="/README/variant-1/dark/readme-stat-1.svg" style="" />',
+            '<img width="400px" align="center" alt="GitHub Stats" src="/README/variant-1/dark/readme-stat-1.svg" />',
         );
     });
 
@@ -116,7 +116,7 @@ describe("generatePreviewREADME", () => {
             2,
         );
 
-        expect(markdown).toContain("[&lt;b&gt;Ada&lt;/b&gt;](https://github.com/octocat)");
+        expect(markdown).toContain("[**&lt;b&gt;Ada&lt;/b&gt;**](https://github.com/octocat)");
         expect(markdown).not.toContain("javascript:");
         expect(markdown).toContain("Your tagline goes here");
     });

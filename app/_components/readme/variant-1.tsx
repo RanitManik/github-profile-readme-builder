@@ -539,7 +539,47 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
         }
     }
 
-    const showcaseSkills = ["react", "nextjs", "typescript", "tailwind", "nodejs", "git"];
+    const showcaseSkills = [
+        "html",
+        "md",
+        "css",
+        "sass",
+        "tailwind",
+        "bootstrap",
+        "svg",
+        "figma",
+        "ps",
+        "ai",
+        "pr",
+        "ae",
+        "blender",
+        "javascript",
+        "typescript",
+        "go",
+        "python",
+        "java",
+        "vite",
+        "react",
+        "redux",
+        "next",
+        "nodejs",
+        "express",
+        "graphql",
+        "electron",
+        "prisma",
+        "postgres",
+        "mongodb",
+        "firebase",
+        "vercel",
+        "netlify",
+        "aws",
+        "docker",
+        "git",
+        "github",
+        "bash",
+        "linux",
+        "stackoverflow",
+    ];
     const activeSkills = skills.length > 0 ? skills : isShowcasePreview ? showcaseSkills : [];
     const SKILLS_PER_ROW = 13;
     let techSection = "";
@@ -576,7 +616,11 @@ export function generatePreviewREADME(data: ReadmeData, formStage: number): stri
           ? `[**${escapeMarkdownText(displayName)}**](${safePortfolioUrl})`
           : "";
 
-    const taglineDisplay = safeTagline ? `\n### ${escapeMarkdownText(safeTagline)}\n` : "";
+    const taglineDisplay = safeTagline
+        ? `\n### ${escapeMarkdownText(safeTagline)}\n`
+        : !isShowcasePreview
+          ? "\n### Your tagline goes here\n"
+          : "";
 
     let result = `# Hi👋, I'm ${nameDisplay}${taglineDisplay}\n${bulletSection}\n`;
 
