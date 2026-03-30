@@ -132,7 +132,7 @@ export default function FormStageDone({ markdown, onReset, onClose }: FormStageD
 
                 {/* Content */}
                 <div className="p-6 sm:p-8">
-                    <div className="mb-6 text-center sm:text-left">
+                    <div className="mb-6 text-left">
                         <p className="text-foreground-400 text-sm leading-relaxed">
                             We&apos;ve generated your personalized GitHub Profile README.
                         </p>

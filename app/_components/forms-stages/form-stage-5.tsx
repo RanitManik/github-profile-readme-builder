@@ -129,7 +129,7 @@ export default function FormStage5({ data, updateData }: FormStage5Props) {
                     onChange={(v) => updateData({ showPinnedRepos: v })}
                 />
                 {data.showPinnedRepos && (
-                    <div className="grid grid-cols-2 gap-3 pl-3">
+                    <div className="grid grid-cols-1 gap-3 pl-3 sm:grid-cols-2">
                         <RepoSelect
                             label="Left Repo"
                             value={data.pinnedRepo1}

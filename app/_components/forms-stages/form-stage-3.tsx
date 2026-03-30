@@ -43,7 +43,7 @@ export default function FormStage3({ data, updateData }: FormStage3Props) {
                 />
             </FormField>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField label="Company / Org" optional>
                     <TextInput
                         type="text"
@@ -89,7 +89,7 @@ export default function FormStage3({ data, updateData }: FormStage3Props) {
                 />
             </FormField>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField label="Institution" optional>
                     <TextInput
                         type="text"

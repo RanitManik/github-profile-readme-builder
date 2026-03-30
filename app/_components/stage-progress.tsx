@@ -10,7 +10,7 @@ const STAGES = [1, 2, 3, 4, 5];
 
 export default function StageProgress({ currentStage }: StageProgressProps) {
     return (
-        <div className="border-border bg-background_darker flex h-full flex-col justify-center border-b px-10 py-3.5">
+        <div className="border-border bg-background_darker flex h-full flex-col justify-center border-b px-4 py-3.5 md:px-10">
             <div className="flex w-full items-start">
                 {STAGES.map((stage, idx) => {
                     const isDone = currentStage > stage;
