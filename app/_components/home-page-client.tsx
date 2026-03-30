@@ -42,7 +42,7 @@ export default function HomePageClient() {
     return (
         <main className="m-auto grid h-svh max-w-480 md:grid-cols-5 md:grid-rows-[auto_1fr]">
             <div className="border-border col-span-2 border-r">
-                {!isDone && <StageProgress currentStage={formStage} />}
+                <StageProgress currentStage={Math.min(formStage, TOTAL_STAGES)} />
             </div>
 
             <div className="col-span-3">
@@ -57,13 +57,14 @@ export default function HomePageClient() {
                     {formStage === 2 && <FormStage2 data={readmeData} updateData={updateData} />}
                     {formStage === 3 && <FormStage3 data={readmeData} updateData={updateData} />}
                     {formStage === 4 && <FormStage4 data={readmeData} updateData={updateData} />}
-                    {formStage === 5 && <FormStage5 data={readmeData} updateData={updateData} />}
-                    {isDone && <FormStageDone markdown={markdown} onReset={reset} />}
+                    {(formStage === 5 || isDone) && (
+                        <FormStage5 data={readmeData} updateData={updateData} />
+                    )}
                 </div>
 
-                {formStage >= 2 && !isDone && (
+                {formStage >= 2 && (
                     <FormNavigation
-                        currentStage={formStage}
+                        currentStage={Math.min(formStage, TOTAL_STAGES)}
                         totalStages={TOTAL_STAGES}
                         onBack={goBack}
                         onNext={goNext}
@@ -80,6 +81,14 @@ export default function HomePageClient() {
                     </div>
                 </div>
             </div>
+
+            {isDone && (
+                <FormStageDone
+                    markdown={markdown}
+                    onReset={reset}
+                    onClose={() => setFormStage(TOTAL_STAGES)}
+                />
+            )}
         </main>
     );
 }
