@@ -15,7 +15,6 @@ import Confetti from "react-confetti";
 import { cn } from "@/lib/utils";
 
 interface FormStageDoneProps {
-    username: string;
     markdown: string;
     onReset: () => void;
     onClose: () => void;
