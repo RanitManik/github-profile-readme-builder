@@ -57,10 +57,6 @@ const nextConfig: NextConfig = {
             fallback: [],
         };
     },
-
-    // Optimize bundle
-    swcMinify: true,
-    poweredByHeader: false,
 };
 
 export default nextConfig;
