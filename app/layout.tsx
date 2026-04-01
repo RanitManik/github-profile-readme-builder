@@ -3,9 +3,25 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import "@/styles/globals.css";
 import React from "react";
 import { getSiteUrl, siteConfig } from "@/lib/site";
+import Script from "next/script";
 
 const siteUrl = getSiteUrl();
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: siteUrl?.toString(),
+    logo: siteUrl
+        ? `${siteUrl.toString().replace(/\/$/, "")}/logo.png`
+        : "https://github.com/RanitManik/github-profile-readme-builder/raw/main/public/logo.png",
+    description: siteConfig.description,
+    sameAs: [
+        "https://github.com/RanitManik/github-profile-readme-builder",
+        "https://twitter.com/ranitmanik",
+    ],
+};
 
 export const metadata: Metadata = {
     metadataBase: siteUrl ?? undefined,
@@ -63,6 +79,13 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <Script
+                    id="organization-schema"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+                />
+            </head>
             <body className="antialiased">
                 {children}
                 {GA_MEASUREMENT_ID ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
