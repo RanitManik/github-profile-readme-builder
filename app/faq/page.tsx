@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import Link from "next/link";
+import ContentPageLayout from "@/app/_components/content-page-layout";
 
 const siteUrl = getSiteUrl();
 
@@ -208,96 +209,36 @@ export default function FAQPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
-            <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
-                {/* Navigation */}
-                <nav className="border-b border-slate-200 bg-white">
-                    <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between">
-                            <Link href="/" className="text-xl font-bold text-slate-900">
-                                README Builder
-                            </Link>
-                            <div className="flex gap-4">
-                                <Link
-                                    href="/"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Home
-                                </Link>
-                                <Link
-                                    href="/features"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Features
-                                </Link>
-                                <Link
-                                    href="/guides"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Guides
-                                </Link>
-                                <Link href="/faq" className="font-semibold text-blue-600">
-                                    FAQ
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
-                {/* Hero Section */}
+            <ContentPageLayout currentPage="faq">
                 <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
                     <div className="text-center">
-                        <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
+                        <h1 className="text-foreground-50 text-4xl font-bold sm:text-5xl">
                             Frequently Asked Questions
                         </h1>
-                        <p className="mt-4 text-xl text-slate-600">
+                        <p className="text-foreground-300 mt-4 text-lg">
                             Find answers to common questions about the GitHub README Builder.
                         </p>
                     </div>
                 </section>
 
-                {/* FAQ Section */}
-                <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-                    <div className="space-y-8">
+                <section className="mx-auto max-w-4xl px-4 pb-20 sm:px-6 lg:px-8">
+                    <div className="space-y-4">
                         {faqs.map((faq, index) => (
                             <div
                                 key={index}
-                                className="rounded-lg border border-slate-200 bg-white p-8"
+                                className="border-border hover:border-accent rounded-lg border bg-neutral-950 p-6 transition-colors"
                             >
-                                <h3 className="mb-4 text-xl font-bold text-slate-900">
+                                <h3 className="text-foreground-50 mb-3 text-lg font-bold">
                                     {faq.question}
                                 </h3>
-                                <p className="leading-relaxed text-slate-600">{faq.answer}</p>
+                                <p className="text-foreground-300 text-sm leading-relaxed">
+                                    {faq.answer}
+                                </p>
                             </div>
                         ))}
                     </div>
                 </section>
-
-                {/* CTA Section */}
-                <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="mb-4 text-3xl font-bold text-slate-900">
-                            Still have questions?
-                        </h2>
-                        <p className="mb-6 text-lg text-slate-600">
-                            Check out our guides or start building your GitHub README now.
-                        </p>
-                        <div className="flex justify-center gap-4">
-                            <Link
-                                href="/guides"
-                                className="inline-block rounded-lg border-2 border-blue-600 px-8 py-3 font-semibold text-blue-600 transition-colors hover:bg-blue-50"
-                            >
-                                Read Guides
-                            </Link>
-                            <Link
-                                href="/"
-                                className="inline-block rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
-                            >
-                                Start Building →
-                            </Link>
-                        </div>
-                    </div>
-                </section>
-            </div>
+            </ContentPageLayout>
         </>
     );
 }

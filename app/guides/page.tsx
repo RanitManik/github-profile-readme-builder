@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import Link from "next/link";
+import ContentPageLayout from "@/app/_components/content-page-layout";
 
 const siteUrl = getSiteUrl();
 
@@ -138,76 +139,42 @@ export default function GuidesPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
             />
-            <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
-                {/* Navigation */}
-                <nav className="border-b border-slate-200 bg-white">
-                    <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between">
-                            <Link href="/" className="text-xl font-bold text-slate-900">
-                                README Builder
-                            </Link>
-                            <div className="flex gap-4">
-                                <Link
-                                    href="/"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Home
-                                </Link>
-                                <Link
-                                    href="/features"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Features
-                                </Link>
-                                <Link href="/guides" className="font-semibold text-blue-600">
-                                    Guides
-                                </Link>
-                                <Link
-                                    href="/faq"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    FAQ
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
-                {/* Hero Section */}
+            <ContentPageLayout currentPage="guides">
                 <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
                     <div className="text-center">
-                        <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
-                            GitHub README Guides & Resources
+                        <h1 className="text-foreground-50 text-4xl font-bold sm:text-5xl">
+                            Guides & Resources
                         </h1>
-                        <p className="mt-4 text-xl text-slate-600">
+                        <p className="text-foreground-300 mt-4 text-lg">
                             Learn everything you need to know about creating an amazing GitHub
                             profile README.
                         </p>
                     </div>
                 </section>
 
-                {/* Guides Grid */}
-                <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {guides.map((guide) => (
                             <article
                                 key={guide.id}
-                                className="flex flex-col rounded-lg border border-slate-200 bg-white p-8 transition-shadow hover:shadow-lg"
+                                className="border-border hover:border-accent group flex flex-col rounded-lg border bg-neutral-950 p-6 transition-colors"
                             >
                                 <div className="mb-4">
-                                    <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-600">
+                                    <span className="bg-accent-950 text-accent inline-block rounded-full px-3 py-1 text-xs font-semibold">
                                         {guide.category}
                                     </span>
                                 </div>
-                                <h3 className="mb-3 text-xl font-bold text-slate-900">
+                                <h3 className="text-foreground-50 mb-3 text-lg font-bold">
                                     {guide.title}
                                 </h3>
-                                <p className="mb-4 grow text-slate-600">{guide.excerpt}</p>
-                                <div className="flex items-center justify-between text-sm text-slate-500">
+                                <p className="text-foreground-300 mb-4 grow text-sm leading-relaxed">
+                                    {guide.excerpt}
+                                </p>
+                                <div className="text-foreground-400 flex items-center justify-between text-xs">
                                     <span>{guide.readTime}</span>
                                     <Link
                                         href={`/guides/${guide.id}`}
-                                        className="font-semibold text-blue-600 hover:text-blue-700"
+                                        className="text-accent hover:text-accent-400 font-semibold transition-colors"
                                     >
                                         Read →
                                     </Link>
@@ -216,22 +183,7 @@ export default function GuidesPage() {
                         ))}
                     </div>
                 </section>
-
-                {/* CTA Section */}
-                <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="mb-4 text-3xl font-bold text-slate-900">
-                            Ready to create your GitHub README?
-                        </h2>
-                        <Link
-                            href="/"
-                            className="inline-block rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
-                        >
-                            Start Building →
-                        </Link>
-                    </div>
-                </section>
-            </div>
+            </ContentPageLayout>
         </>
     );
 }

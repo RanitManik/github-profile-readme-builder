@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import Link from "next/link";
+import ContentPageLayout from "@/app/_components/content-page-layout";
 
 const siteUrl = getSiteUrl();
 
@@ -153,87 +154,40 @@ export default function FeaturesPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(featureListSchema) }}
             />
-            <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
-                {/* Navigation */}
-                <nav className="border-b border-slate-200 bg-white">
-                    <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between">
-                            <Link href="/" className="text-xl font-bold text-slate-900">
-                                README Builder
-                            </Link>
-                            <div className="flex gap-4">
-                                <Link
-                                    href="/"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Home
-                                </Link>
-                                <Link href="/features" className="font-semibold text-blue-600">
-                                    Features
-                                </Link>
-                                <Link
-                                    href="/guides"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    Guides
-                                </Link>
-                                <Link
-                                    href="/faq"
-                                    className="text-slate-600 transition-colors hover:text-slate-900"
-                                >
-                                    FAQ
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
-                {/* Hero Section */}
+            <ContentPageLayout currentPage="features">
                 <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
                     <div className="text-center">
-                        <h1 className="text-4xl font-bold text-slate-900 sm:text-5xl">
-                            Powerful Features for GitHub Profile READMEs
+                        <h1 className="text-foreground-50 text-4xl font-bold sm:text-5xl">
+                            Powerful Features
                         </h1>
-                        <p className="mt-4 text-xl text-slate-600">
+                        <p className="text-foreground-300 mt-4 text-lg">
                             Everything you need to create a stunning GitHub profile README in
                             minutes.
                         </p>
                     </div>
                 </section>
 
-                {/* Features Grid */}
-                <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         {features.map((feature, index) => (
                             <div
                                 key={index}
-                                className="rounded-lg border border-slate-200 bg-white p-8 transition-shadow hover:shadow-lg"
+                                className="border-border hover:border-accent group rounded-lg border bg-neutral-950 p-6 transition-colors"
                             >
-                                <div className="mb-4 text-4xl">{feature.icon}</div>
-                                <h3 className="mb-2 text-xl font-bold text-slate-900">
+                                <div className="mb-4 text-4xl transition-transform group-hover:scale-110">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="text-foreground-50 mb-2 text-lg font-bold">
                                     {feature.title}
                                 </h3>
-                                <p className="text-slate-600">{feature.description}</p>
+                                <p className="text-foreground-300 text-sm leading-relaxed">
+                                    {feature.description}
+                                </p>
                             </div>
                         ))}
                     </div>
                 </section>
-
-                {/* CTA Section */}
-                <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="mb-4 text-3xl font-bold text-slate-900">
-                            Ready to build your GitHub README?
-                        </h2>
-                        <Link
-                            href="/"
-                            className="inline-block rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
-                        >
-                            Start Building →
-                        </Link>
-                    </div>
-                </section>
-            </div>
+            </ContentPageLayout>
         </>
     );
 }
