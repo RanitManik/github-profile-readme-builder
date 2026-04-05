@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GitHubButton from "react-github-btn";
 import Logo from "@/components/logo";
 
 export default function LeftHeader() {
@@ -16,21 +17,32 @@ export default function LeftHeader() {
                 </div>
             </div>
 
-            <a
-                href="https://buymeacoffee.com/ranitmanik"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex shrink-0 items-center transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                aria-label="Support this project on Buy Me a Coffee"
-            >
-                <Image
-                    src="/bmc-button.png"
-                    alt="Buy Me a Coffee"
-                    width={140}
-                    height={39}
-                    className="h-auto w-35"
+            <div className="space-x-2">
+                <GitHubButton
+                    href="https://github.com/RanitManik/github-profile-readme-builder"
+                    data-color-scheme="no-preference: dark; light: dark; dark: dark;"
+                    data-size="large"
+                    data-show-count={true}
+                    data-text="Star"
+                    aria-label="Star RanitManik/github-profile-readme-builder on GitHub"
                 />
-            </a>
+
+                <a
+                    href="https://buymeacoffee.com/ranitmanik"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex h-7 items-center"
+                    aria-label="Support this project on Buy Me a Coffee"
+                >
+                    <Image
+                        src="/bmc-button.png"
+                        alt="Buy Me a Coffee"
+                        width={140}
+                        height={39}
+                        className="h-7 w-auto"
+                    />
+                </a>
+            </div>
         </nav>
     );
 }
